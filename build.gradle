@@ -1,0 +1,43 @@
+buildscript {
+  repositories {
+    mavenCentral()
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "org.springframework.boot:spring-boot-gradle-plugin:2.6.0"
+  }
+}
+
+plugins {
+  id 'org.springframework.boot' version '2.6.0'
+  id 'java'
+  id('idea')
+  id('io.ebean') version '12.12.1'
+}
+
+allprojects {
+  group = 'com.licenseair'
+  version = '0.0.1'
+  sourceCompatibility = '11'
+}
+
+subprojects {
+  apply plugin: "org.springframework.boot"
+
+  repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url "https://repo.spring.io/libs-release" }
+    maven { url "https://repo.spring.io/libs-milestone" }
+  }
+
+  test {
+    useJUnitPlatform()
+  }
+}
+
+bootJar {
+  enabled = false
+}

@@ -1,0 +1,22 @@
+plugins {
+  id 'org.springframework.boot'
+  id 'io.spring.dependency-management'
+  id 'java'
+  id('idea')
+}
+
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.springframework.boot:spring-boot-starter-freemarker'
+  implementation("com.google.guava:guava:29.0-jre")
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  compileOnly group: 'com.github.jsqlparser', name: 'jsqlparser', version: '4.2'
+  compileOnly group: 'org.freemarker', name: 'freemarker', version: '2.3.30'
+  compileOnly group: 'com.google.guava', name: 'guava', version: '29.0-jre'
+
+  runtimeOnly 'org.postgresql:postgresql'
+}
+
+bootJar {
+  enabled = true
+}

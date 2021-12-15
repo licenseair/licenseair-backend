@@ -1,0 +1,6 @@
+rootProject.name = 'licenseair-backen'
+
+include 'generator'
+include 'backend'
+include 'dashboard'
+include 'password'
