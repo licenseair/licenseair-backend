@@ -4,15 +4,15 @@
   password char(60) NOT NULL,
   mobile char(11) NOT NULL,
   email varchar(70) NOT NULL,
-  active int2 NOT NULL DEFAULT 0,
-  deleted int2 DEFAULT 0,
+  active boolean NOT NULL DEFAULT true,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
 );
 COMMENT ON TABLE "public"."admin" IS '管理员';
 CREATE UNIQUE INDEX "admin_mobile" ON "public"."admin" USING btree (mobile);
 COMMENT ON COLUMN "public"."admin"."username" IS '网站显示';
-COMMENT ON COLUMN "public"."admin"."active" IS  '0未激活，1激活';
+COMMENT ON COLUMN "public"."admin"."active" IS  '是否激活';
 COMMENT ON COLUMN "public"."admin"."deleted" IS '是否删除';
 COMMENT ON COLUMN "public"."admin"."created_at" IS '创建时间';
 COMMENT ON COLUMN "public"."admin"."updated_at" IS '更新时间';
@@ -21,7 +21,7 @@ CREATE TABLE "category" (
   id bigserial PRIMARY KEY,
   name text NOT NULL,
   path text NOT NULL,
-  deleted int2 DEFAULT 0,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -42,7 +42,7 @@ CREATE TABLE "profile" (
   company char(64) DEFAULT NULL,
   city varchar(64) DEFAULT 0,
   birthday date DEFAULT NULL,
-  deleted int2 DEFAULT 0,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -66,9 +66,10 @@ CREATE TABLE session_log (
   sign text,
   key char(44),
   type int2 DEFAULT 1,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
-)
+);
 CREATE INDEX "session_log_user_id" ON "public"."session_log" USING btree (user_id);
 CREATE INDEX "session_log_sign" ON "public"."session_log" USING btree (sign);
 COMMENT ON TABLE "public"."session_log" IS '用户登录信息';
@@ -86,7 +87,7 @@ CREATE TABLE pay_order (
   price decimal(10,2) NOT NULL DEFAULT 0.00,
   is_pay boolean NOT NULL DEFAULT false,
   pay_time timestamp NULL DEFAULT NULL,
-  deleted int2 DEFAULT 0,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -119,7 +120,7 @@ CREATE TABLE order_notify (
   sign_type char(4) DEFAULT NULL,
   seller_id char(16) DEFAULT NULL,
   timestamp timestamp NULL DEFAULT NULL,
-  deleted int2 DEFAULT 0,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -135,21 +136,21 @@ CREATE TABLE "user" (
   mobile char(11) NOT NULL,
   email varchar(70) DEFAULT NULL,
   domain varchar(32) NULL,
-  active int2 NOT NULL DEFAULT 0,
-  deleted int2 DEFAULT 0,
+  active boolean NOT NULL DEFAULT true,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
 );
 CREATE UNIQUE INDEX "user_mobile" ON "public"."user" USING btree (mobile);
 CREATE UNIQUE INDEX "user_username" ON "public"."user" USING btree (username);
-CREATE UNIQUE INDEX "user_domain" ON "public"."user" USING btree (com.licenseair.backend.domain);
+CREATE UNIQUE INDEX "user_domain" ON "public"."user" USING btree (domain);
 COMMENT ON TABLE "public"."user" IS '用户';
 COMMENT ON COLUMN "public"."user"."username" IS '用户名';
 COMMENT ON COLUMN "public"."user"."password" IS '密码';
 COMMENT ON COLUMN "public"."user"."mobile" IS '手机号';
 COMMENT ON COLUMN "public"."user"."email" IS '邮箱地址';
 COMMENT ON COLUMN "public"."user"."domain" IS '用户域名';
-COMMENT ON COLUMN "public"."user"."active" IS '0未激活，1激活';
+COMMENT ON COLUMN "public"."user"."active" IS '是否激活';
 COMMENT ON COLUMN "public"."user"."deleted" IS '是否删除';
 COMMENT ON COLUMN "public"."user"."created_at" IS '创建时间';
 COMMENT ON COLUMN "public"."user"."updated_at" IS '更新时间';
@@ -159,7 +160,7 @@ CREATE TABLE "sms_log" (
   id bigserial PRIMARY KEY,
   mobile char(11) NOT NULL,
   code int4 NOT NULL,
-  deleted int2 DEFAULT 0,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -186,7 +187,7 @@ CREATE TABLE "application" (
   official_price numeric(10,2) NULL default 0.00,
   usable boolean NOT NULL DEFAULT false,
   platform bigint[] NOT NULL,
-  deleted int2 DEFAULT 0,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -216,7 +217,7 @@ CREATE TABLE "city" (
   province char(64) NOT NULL,
   city char(64) NOT NULL,
   join_name  char(64) NOT NULL,
-  deleted int2 DEFAULT 0,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -226,7 +227,7 @@ CREATE TABLE "wallet" (
   id bigserial PRIMARY KEY,
   user_id bigint default 0 NOT NULL,
   money decimal(10,2) NOT NULL DEFAULT 0.00,
-  deleted int2 DEFAULT 0,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -239,7 +240,7 @@ CREATE TABLE "wallet_log" (
   user_id bigint default 0 NOT NULL,
   money decimal(10,2) NOT NULL DEFAULT 0.00,
   description text NOT NULL,
-  deleted int2 DEFAULT 0,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -250,10 +251,10 @@ COMMENT ON COLUMN "public"."wallet_log"."description" IS '资金变动';
 
 CREATE TABLE "instance_image" (
   id bigserial PRIMARY KEY,
-  image_id text not null,
+  image_id text NOT NULL,
   application_id bigint default 0 NOT NULL,
   busy boolean NOT NULL default false,
-  deleted int2 DEFAULT 0,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -268,8 +269,8 @@ CREATE TABLE "auth2" (
   source text NOT NULL,
   uuid text NOT NULL,
   unionid text,
-  raw_data text not null,
-  deleted int2 DEFAULT 0,
+  raw_data text NOT NULL,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -280,22 +281,22 @@ COMMENT ON COLUMN "public"."auth2"."uuid" IS 'uuid';
 COMMENT ON COLUMN "public"."auth2"."unionid" IS 'unionid';
 
 
-CREATE TABLE "public"."language"
+CREATE TABLE "language"
 (
   id bigserial PRIMARY KEY,
   "description" text NOT NULL ,
   "tag" text NOT NULL ,
-  "deleted" smallint DEFAULT 0 ,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
 );
 COMMENT ON TABLE "public"."language" IS '语言';
 
 
-CREATE TABLE "public"."platform" (
+CREATE TABLE "platform" (
   id bigserial PRIMARY KEY,
   "name" text NOT NULL ,
-  "deleted" smallint DEFAULT 0 ,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -309,12 +310,13 @@ CREATE TABLE "app_instance" (
   private_address char(15) NOT NULL,
   public_address char(15) NOT NULL,
   status char(16) NOT NULL DEFAULT 'Pending',
-  remove_time timestamp NULL,
-  image_id text not null,
-  origin_image_id text not null,
-  instance_id text not null,
-  instance_type text not null,
-  deleted int2 DEFAULT 0,
+  image_id text NOT NULL,
+  origin_image_id text NOT NULL,
+  instance_id text NOT NULL,
+  instance_type text NOT NULL,
+  hours int2 NOT NULL default 1,
+  auto_save boolean NOT NULL DEFAULT false,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -324,11 +326,12 @@ COMMENT ON COLUMN "public"."app_instance"."application_id" IS 'APPid';
 COMMENT ON COLUMN "public"."app_instance"."private_address" IS '私有地址';
 COMMENT ON COLUMN "public"."app_instance"."public_address" IS '公有地址';
 COMMENT ON COLUMN "public"."app_instance"."status" IS '实例状态 Pending | Starting | Running ｜ Stopping';
-COMMENT ON COLUMN "public"."app_instance"."remove_time" IS '释放时间';
 COMMENT ON COLUMN "public"."app_instance"."image_id" IS '镜像id';
 COMMENT ON COLUMN "public"."app_instance"."origin_image_id" IS '原有镜像id';
 COMMENT ON COLUMN "public"."app_instance"."instance_id" IS '实例id';
 COMMENT ON COLUMN "public"."app_instance"."instance_type" IS '实例规格';
+COMMENT ON COLUMN "public"."app_instance"."hours" IS '使用时长';
+COMMENT ON COLUMN "public"."app_instance"."auto_save" IS '是否删除';
 COMMENT ON COLUMN "public"."app_instance"."deleted" IS '是否删除';
 COMMENT ON COLUMN "public"."app_instance"."created_at" IS '创建时间';
 COMMENT ON COLUMN "public"."app_instance"."updated_at" IS '更新时间';
@@ -336,10 +339,10 @@ COMMENT ON COLUMN "public"."app_instance"."updated_at" IS '更新时间';
 
 CREATE TABLE "instance_type" (
   id bigserial PRIMARY KEY,
-  name text not null,
-  type text not null,
+  name text NOT NULL,
+  type text NOT NULL,
   price decimal(10,2) NOT NULL DEFAULT 0.00,
-  deleted int2 DEFAULT 0,
+  deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
 );
