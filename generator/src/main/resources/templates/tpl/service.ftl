@@ -129,13 +129,13 @@ public class ${camelName}Service extends BaseService {
    * @return
    */
   public DataResource query(QueryRequest params) {
-    ExpressionList where = ${camelName}.find.query().where();
+    ExpressionList<${camelName}> where = ${camelName}.find.query().where();
 
     if(this.fieldExist(${camelName}.class, "deleted")) {
-      where.ne("deleted" ,1);
+      where.ne("deleted", true);
     }
     if(this.fieldExist(${camelName}.class, "active")) {
-      where.eq("active" ,1);
+      where.eq("active", true);
     }
 
     if(params.columns != null) {
@@ -195,6 +195,13 @@ public class ${camelName}Service extends BaseService {
           array.add(item);
         });
         where.arrayContains(params.query.arrayContains.field, array.toArray());
+      }
+      if(params.query.idIn != null) {
+        List<Integer> Ids = new ArrayList<>();
+        params.query.idIn.forEach(item -> {
+          Ids.add(item);
+        });
+        where.idIn(Ids);
       }
       if(params.query.order != null && params.query.order.size() > 0) {
         params.query.order.forEach((String sort) -> {
