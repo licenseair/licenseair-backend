@@ -19,7 +19,7 @@ public class InstanceImageModel {
   /**
   *
   */
-  public Integer deleted = null;
+  public boolean deleted = false;
 
   /**
   *

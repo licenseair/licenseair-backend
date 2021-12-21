@@ -20,7 +20,7 @@ public class WalletLogModel {
   /**
   *
   */
-  public Integer deleted = null;
+  public boolean deleted = false;
 
   /**
   *

@@ -18,7 +18,7 @@ public class CategoryModel {
   /**
   * 是否删除
   */
-  public Integer deleted = null;
+  public boolean deleted = false;
 
   /**
   * 分类名称

@@ -19,7 +19,7 @@ public class Auth2Model {
   /**
   *
   */
-  public Integer deleted = null;
+  public boolean deleted = false;
 
   /**
   * unionid

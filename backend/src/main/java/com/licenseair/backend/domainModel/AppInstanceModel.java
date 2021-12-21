@@ -20,7 +20,7 @@ public class AppInstanceModel {
   /**
   * 是否删除
   */
-  public Integer deleted = null;
+  public boolean deleted = false;
 
   /**
   * 实例状态 Pending | Starting | Running ｜ Stopping
@@ -51,11 +51,6 @@ public class AppInstanceModel {
   * 原有镜像id
   */
   public String origin_image_id = null;
-
-  /**
-  * 释放时间
-  */
-  public Timestamp remove_time = null;
 
   /**
   * 私有地址

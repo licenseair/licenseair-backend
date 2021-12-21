@@ -34,7 +34,7 @@ public class Profile extends Model {
   /**
   * 是否删除
   */
-  public Integer deleted = 0;
+  public boolean deleted = false;
 
   /**
   * 公司

@@ -18,7 +18,7 @@ public class SmsLogModel {
   /**
   *
   */
-  public Integer deleted = null;
+  public boolean deleted = false;
 
   /**
   * 手机号

@@ -19,7 +19,7 @@ public class WalletModel {
   /**
   *
   */
-  public Integer deleted = null;
+  public boolean deleted = false;
 
   /**
   *

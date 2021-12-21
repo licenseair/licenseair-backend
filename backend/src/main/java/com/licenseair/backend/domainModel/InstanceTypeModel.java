@@ -19,7 +19,7 @@ public class InstanceTypeModel {
   /**
   * 是否删除
   */
-  public Integer deleted = null;
+  public boolean deleted = false;
 
   /**
   * 名称

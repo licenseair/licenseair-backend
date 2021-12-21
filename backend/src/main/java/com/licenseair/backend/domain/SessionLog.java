@@ -50,6 +50,11 @@ public class SessionLog extends Model {
   */
   public Integer type = 1;
 
+  /**
+   * 是否删除
+   */
+  public boolean deleted = false;
+
   @WhenCreated
   public Timestamp created_at = new Timestamp(System.currentTimeMillis());
 

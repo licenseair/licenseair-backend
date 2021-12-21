@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.sql.Timestamp;
 
 /**
 * Created by licenseair.com
@@ -112,13 +113,13 @@ public class ApplicationService extends BaseService {
    * @return
    */
   public DataResource query(QueryRequest params) {
-    ExpressionList where = Application.find.query().where();
+    ExpressionList<Application> where = Application.find.query().where();
 
     if(this.fieldExist(Application.class, "deleted")) {
-      where.ne("deleted" ,1);
+      where.ne("deleted", true);
     }
     if(this.fieldExist(Application.class, "active")) {
-      where.eq("active" ,1);
+      where.eq("active", true);
     }
 
     if(params.columns != null) {
@@ -178,6 +179,13 @@ public class ApplicationService extends BaseService {
           array.add(item);
         });
         where.arrayContains(params.query.arrayContains.field, array.toArray());
+      }
+      if(params.query.idIn != null) {
+        List<Integer> Ids = new ArrayList<>();
+        params.query.idIn.forEach(item -> {
+          Ids.add(item);
+        });
+        where.idIn(Ids);
       }
       if(params.query.order != null && params.query.order.size() > 0) {
         params.query.order.forEach((String sort) -> {

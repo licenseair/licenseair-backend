@@ -13,13 +13,14 @@ import io.ebean.ExpressionList;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import org.springframework.beans.BeanUtils;
-
+import org.springframework.http.HttpStatus;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.sql.Timestamp;
 
 /**
-* Created by foxsir
+* Created by licenseair.com
 */
 public class PayOrderService extends BaseService {
 
@@ -110,13 +111,13 @@ public class PayOrderService extends BaseService {
    * @return
    */
   public DataResource query(QueryRequest params) {
-    ExpressionList where = PayOrder.find.query().where();
+    ExpressionList<PayOrder> where = PayOrder.find.query().where();
 
     if(this.fieldExist(PayOrder.class, "deleted")) {
-      where.ne("deleted" ,1);
+      where.ne("deleted", true);
     }
     if(this.fieldExist(PayOrder.class, "active")) {
-      where.eq("active" ,1);
+      where.eq("active", true);
     }
 
     if(params.columns != null) {
@@ -176,6 +177,13 @@ public class PayOrderService extends BaseService {
           array.add(item);
         });
         where.arrayContains(params.query.arrayContains.field, array.toArray());
+      }
+      if(params.query.idIn != null) {
+        List<Integer> Ids = new ArrayList<>();
+        params.query.idIn.forEach(item -> {
+          Ids.add(item);
+        });
+        where.idIn(Ids);
       }
       if(params.query.order != null && params.query.order.size() > 0) {
         params.query.order.forEach((String sort) -> {

@@ -54,7 +54,7 @@ public class Application extends Model {
   /**
   * 是否删除
   */
-  public Integer deleted = 0;
+  public boolean deleted = false;
 
   /**
   * 支持系统平台

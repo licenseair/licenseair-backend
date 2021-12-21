@@ -31,7 +31,7 @@ public class SmsLog extends Model {
   /**
   *
   */
-  public Integer deleted = 0;
+  public boolean deleted = false;
 
   /**
   * 手机号

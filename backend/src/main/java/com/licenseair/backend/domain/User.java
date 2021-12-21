@@ -32,7 +32,7 @@ public class User extends Model {
   /**
   * 是否删除
   */
-  public Integer deleted = 0;
+  public boolean deleted = false;
 
   /**
   * 邮箱地址
@@ -68,10 +68,10 @@ public class User extends Model {
   public String domain;
 
   /**
-  * 0未激活，1激活
+  * 是否激活
   */
-  @NotNull(message = "0未激活，1激活不能是空")
-  public Integer active = 0;
+  @NotNull(message = "是否激活")
+  public boolean active = true;
 
   /**
   * 用户名

@@ -7,19 +7,21 @@ import com.licenseair.backend.commons.model.QueryRequest;
 import com.licenseair.backend.commons.util.HttpRequestException;
 import com.licenseair.backend.commons.util.HttpRequestFormException;
 import com.licenseair.backend.domain.Admin;
-import com.licenseair.backend.domain.User;
 import com.licenseair.backend.domainModel.UserModel;
+import com.licenseair.backend.domain.Admin;
+import com.licenseair.backend.domain.User;
 import io.ebean.ExpressionList;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import org.springframework.beans.BeanUtils;
-
+import org.springframework.http.HttpStatus;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.sql.Timestamp;
 
 /**
-* Created by foxsir
+* Created by licenseair.com
 */
 public class UserService extends BaseService {
 
@@ -110,13 +112,13 @@ public class UserService extends BaseService {
    * @return
    */
   public DataResource query(QueryRequest params) {
-    ExpressionList where = User.find.query().where();
+    ExpressionList<User> where = User.find.query().where();
 
     if(this.fieldExist(User.class, "deleted")) {
-      where.ne("deleted" ,1);
+      where.ne("deleted", true);
     }
     if(this.fieldExist(User.class, "active")) {
-      where.eq("active" ,1);
+      where.eq("active", true);
     }
 
     if(params.columns != null) {
@@ -176,6 +178,13 @@ public class UserService extends BaseService {
           array.add(item);
         });
         where.arrayContains(params.query.arrayContains.field, array.toArray());
+      }
+      if(params.query.idIn != null) {
+        List<Integer> Ids = new ArrayList<>();
+        params.query.idIn.forEach(item -> {
+          Ids.add(item);
+        });
+        where.idIn(Ids);
       }
       if(params.query.order != null && params.query.order.size() > 0) {
         params.query.order.forEach((String sort) -> {

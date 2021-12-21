@@ -23,7 +23,7 @@ public class LanguageModel {
   /**
   *
   */
-  public Integer deleted = null;
+  public boolean deleted = false;
 
   /**
   *

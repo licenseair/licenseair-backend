@@ -32,6 +32,7 @@ public class QueryRequest {
     // <
     public List<Map<String, Object>> gt = null;
     public arrayContainsType arrayContains = null;
+    public List<Integer> idIn = null;
 
     public ArrayList<String> order = null;
 

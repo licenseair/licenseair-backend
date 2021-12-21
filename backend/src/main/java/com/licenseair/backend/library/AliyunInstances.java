@@ -42,7 +42,7 @@ public class AliyunInstances {
   /**
    * 实例的资源规格
    */
-  private final String instanceType = "ecs.g7.large";
+  private String instanceType;
   /**
    * 实例的计费方式
    */
@@ -78,7 +78,7 @@ public class AliyunInstances {
   /**
    * 实例名称
    */
-  private final String instanceName = "container-node";
+  private final String instanceName = "app-instance";
   /**
    * 指定创建ECS实例的数量
    */
@@ -114,39 +114,33 @@ public class AliyunInstances {
   /**
    * 调用创建实例的API，得到实例ID后继续查询实例状态
    */
-  public Map<String, String> callToRunInstances() {
+  public Map<String, String> callToRunInstances(InstanceImage instanceImage, AppInstance appInstance) {
+    this.instanceImage = instanceImage;
+    this.instanceType = appInstance.instance_type;
     AcsResponse response = callOpenApi(composeRunInstancesRequest());
     if(response == null) {
       return Map.of();
-    } else {
-      this.instanceImage.setBusy(true);
-      this.instanceImage.save();
     }
     // logger.info(String.format("Success. Instance creation succeed. InstanceIds: %s",
     //   JSON.toJson(((RunInstancesResponse)response).getInstanceIdSets())));
 
     RunInstancesResponse res = (RunInstancesResponse) response;
-    AppInstance appInstance = new AppInstance();
     new Thread(() -> {
-      appInstance.instance_id = res.getInstanceIdSets().get(0);
-      System.out.println("nodeServer.instance_id");
+      appInstance.setInstance_id(res.getInstanceIdSets().get(0));
+      System.out.println("instance_id");
       System.out.println(appInstance.instance_id);
       System.out.println(res.getInstanceIdSets());
+      appInstance.save();
       callToDescribeInstances(res.getInstanceIdSets(), appInstance);
     }).start();
 
     return Map.of(
       "requestId", res.getRequestId(),
-      "instanceIdSets", res.getInstanceIdSets().get(0)
+      "instanceId", res.getInstanceIdSets().get(0)
     );
   }
 
   private RunInstancesRequest composeRunInstancesRequest() {
-    this.instanceImage = InstanceImage.find.query().where().eq("busy", false)
-      .setMaxRows(1)
-      .order().desc("id")
-      .findOne();
-
     if (instanceImage != null) {
       this.imageId = instanceImage.image_id;
     } else {
@@ -253,19 +247,8 @@ public class AliyunInstances {
           // System.out.println(instance.getVpcAttributes().getPrivateIpAddress());
           logger.info(instance.getStatus());
           if(INSTANCE_STATUS_RUNNING.equals(instance.getStatus())) {
-            // restart
-            appInstance.setStatus(ServerStatus.Stopping);
-            appInstance.save();
-
-            // 只设置状态
-            sleepSomeTime(1000 * 30);
-            appInstance.setStatus(ServerStatus.Running);
-            appInstance.save();
-
             instanceIds.remove(instance.getInstanceId());
             logger.info(String.format("Instance boot successfully: %s", instance.getInstanceId()));
-
-            // 检查container runtime队列，创建容器
           }
         }
       }

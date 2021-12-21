@@ -33,7 +33,7 @@ public class WalletLog extends Model {
   /**
   *
   */
-  public Integer deleted = 0;
+  public boolean deleted = false;
 
   /**
   *

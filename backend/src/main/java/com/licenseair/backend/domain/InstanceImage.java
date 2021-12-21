@@ -33,7 +33,7 @@ public class InstanceImage extends Model {
   /**
   *
   */
-  public Integer deleted = 0;
+  public boolean deleted = false;
 
   /**
   *

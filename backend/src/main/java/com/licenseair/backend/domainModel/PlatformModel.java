@@ -18,7 +18,7 @@ public class PlatformModel {
   /**
   *
   */
-  public Integer deleted = null;
+  public boolean deleted = false;
 
   /**
   *

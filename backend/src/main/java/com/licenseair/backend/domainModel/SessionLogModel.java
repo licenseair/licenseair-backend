@@ -36,6 +36,11 @@ public class SessionLogModel {
   */
   public Integer type = null;
 
+  /**
+   * 是否删除
+   */
+  public boolean deleted = false;
+
   public Timestamp created_at = null;
 
   public Timestamp updated_at = null;

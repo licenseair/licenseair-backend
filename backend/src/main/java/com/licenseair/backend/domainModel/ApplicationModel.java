@@ -30,7 +30,7 @@ public class ApplicationModel {
   /**
   * 是否删除
   */
-  public Integer deleted = null;
+  public boolean deleted = false;
 
   /**
   * 支持系统平台

@@ -18,7 +18,7 @@ public class UserModel {
   /**
   * 是否删除
   */
-  public Integer deleted = null;
+  public boolean deleted = false;
 
   /**
   * 邮箱地址

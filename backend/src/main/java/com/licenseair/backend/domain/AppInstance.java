@@ -32,7 +32,7 @@ public class AppInstance extends Model {
   /**
   * 是否删除
   */
-  public Integer deleted = 0;
+  public boolean deleted = false;
 
   /**
   * 实例状态 Pending | Starting | Running ｜ Stopping
@@ -75,17 +75,18 @@ public class AppInstance extends Model {
   public String instance_type;
 
   /**
+   * 使用时长
+   */
+  @NotNull(message = "使用时长不能是空")
+  public Integer hours = 1;
+
+  /**
   * 原有镜像id
   */
   @NotNull(message = "原有镜像id不能是空")
   @NotBlank(message = "原有镜像id不能是空")
   @NotEmpty(message = "原有镜像id不能是空")
   public String origin_image_id;
-
-  /**
-  * 释放时间
-  */
-  public Timestamp remove_time;
 
   /**
   * 私有地址

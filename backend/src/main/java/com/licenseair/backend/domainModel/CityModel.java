@@ -23,7 +23,7 @@ public class CityModel {
   /**
   *
   */
-  public Integer deleted = null;
+  public boolean deleted = false;
 
   /**
   *
