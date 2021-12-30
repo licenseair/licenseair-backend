@@ -2,7 +2,7 @@ class ProfileModel {
   public id: number = 0;
 
   // deleted 是否删除
-  public deleted?: number = 0;
+  public deleted: boolean = false;
 
   // company 公司
   public company?: string;

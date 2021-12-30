@@ -111,13 +111,13 @@ public class AppInstanceService extends BaseService {
    * @return
    */
   public DataResource query(QueryRequest params) {
-    ExpressionList where = AppInstance.find.query().where();
+    ExpressionList<AppInstance> where = AppInstance.find.query().where();
 
     if(this.fieldExist(AppInstance.class, "deleted")) {
-      where.ne("deleted" ,1);
+      where.ne("deleted", true);
     }
     if(this.fieldExist(AppInstance.class, "active")) {
-      where.eq("active" ,1);
+      where.eq("active", true);
     }
 
     if(params.columns != null) {
@@ -177,6 +177,13 @@ public class AppInstanceService extends BaseService {
           array.add(item);
         });
         where.arrayContains(params.query.arrayContains.field, array.toArray());
+      }
+      if(params.query.idIn != null) {
+        List<Integer> Ids = new ArrayList<>();
+        params.query.idIn.forEach(item -> {
+          Ids.add(item);
+        });
+        where.idIn(Ids);
       }
       if(params.query.order != null && params.query.order.size() > 0) {
         params.query.order.forEach((String sort) -> {

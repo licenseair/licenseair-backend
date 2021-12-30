@@ -14,7 +14,9 @@ import com.licenseair.backend.commons.util.ErrorHandler;
 import com.licenseair.backend.domain.AppInstance;
 import com.licenseair.backend.domain.InstanceImage;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +25,8 @@ public class AliyunInstances {
 
   private final Gson JSON = new Gson();
   private InstanceImage instanceImage;
+
+  private String instancePassword;
 
   private final String accessKeyId = "LTAIi0pGaRgKSB3s";
   private final String accessSecret = "RAWjeZR32CBPVO1TkMTVEip3MajxyA";
@@ -117,26 +121,26 @@ public class AliyunInstances {
   public Map<String, String> callToRunInstances(InstanceImage instanceImage, AppInstance appInstance) {
     this.instanceImage = instanceImage;
     this.instanceType = appInstance.instance_type;
-    AcsResponse response = callOpenApi(composeRunInstancesRequest());
+    RunInstancesResponse response = callOpenApi(composeRunInstancesRequest());
     if(response == null) {
       return Map.of();
     }
     // logger.info(String.format("Success. Instance creation succeed. InstanceIds: %s",
     //   JSON.toJson(((RunInstancesResponse)response).getInstanceIdSets())));
 
-    RunInstancesResponse res = (RunInstancesResponse) response;
     new Thread(() -> {
-      appInstance.setInstance_id(res.getInstanceIdSets().get(0));
+      appInstance.setInstance_id(response.getInstanceIdSets().get(0));
+      appInstance.setPassword(this.instancePassword);
       System.out.println("instance_id");
       System.out.println(appInstance.instance_id);
-      System.out.println(res.getInstanceIdSets());
+      System.out.println(response.getInstanceIdSets());
       appInstance.save();
-      callToDescribeInstances(res.getInstanceIdSets(), appInstance);
+      callToDescribeInstances(response.getInstanceIdSets(), appInstance);
     }).start();
 
     return Map.of(
-      "requestId", res.getRequestId(),
-      "instanceId", res.getInstanceIdSets().get(0)
+      "requestId", response.getRequestId(),
+      "instanceId", response.getInstanceIdSets().get(0)
     );
   }
 
@@ -166,9 +170,27 @@ public class AliyunInstances {
     runInstancesRequest.setSecurityEnhancementStrategy(securityEnhancementStrategy);
     runInstancesRequest.setSystemDiskSize(systemDiskSize);
     runInstancesRequest.setSystemDiskCategory(systemDiskCategory);
-    runInstancesRequest.setPassword("fox123===");
+    // default username administrator
+
+    String password = this.generatePassword();
+    System.out.println(password);
+    this.instancePassword = password;
+    runInstancesRequest.setPassword(password);
 
     return runInstancesRequest;
+  }
+
+  // 生成9为密码
+  private String generatePassword() {
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    String oriPass = encoder.encode("administrator");
+    String[] pass = oriPass.split("");
+    ArrayList<String> winPass = new ArrayList<>();
+    for (int i = 0; i < 9; i++) {
+      winPass.add(pass[i+2]);
+      System.out.println(pass[i+2]);
+    }
+    return String.join("", winPass);
   }
 
   public void callToDeleteInstances(String instanceId) throws ClientException {

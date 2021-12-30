@@ -111,6 +111,14 @@ public class AppInstance extends Model {
   @NotEmpty(message = "实例id不能是空")
   public String instance_id;
 
+  /**
+  * 实例password
+  */
+  @NotNull(message = "实例password不能是空")
+  @NotBlank(message = "实例password不能是空")
+  @NotEmpty(message = "实例password不能是空")
+  public String password;
+
   @WhenCreated
   public Timestamp created_at = new Timestamp(System.currentTimeMillis());
 

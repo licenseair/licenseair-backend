@@ -2,7 +2,7 @@ class InstanceImageModel {
   public id: number = 0;
 
   // deleted 
-  public deleted?: number = 0;
+  public deleted: boolean = false;
 
   // busy 忙碌 false为可用
   public busy: boolean = false;

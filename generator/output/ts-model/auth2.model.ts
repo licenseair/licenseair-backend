@@ -2,7 +2,7 @@ class Auth2Model {
   public id: number = 0;
 
   // deleted 
-  public deleted?: number = 0;
+  public deleted: boolean = false;
 
   // unionid unionid
   public unionid?: string;

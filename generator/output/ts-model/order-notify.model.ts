@@ -5,7 +5,7 @@ class OrderNotifyModel {
   public method?: string;
 
   // deleted 是否删除
-  public deleted?: number = 0;
+  public deleted: boolean = false;
 
   // sign 
   public sign?: string;

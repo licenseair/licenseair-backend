@@ -2,7 +2,10 @@ class AppInstanceModel {
   public id: number = 0;
 
   // deleted 是否删除
-  public deleted?: number = 0;
+  public deleted: boolean = false;
+
+  // auto_save 是否删除
+  public auto_save: boolean = false;
 
   // status 实例状态 Pending | Starting | Running ｜ Stopping
   public status: string;
@@ -16,14 +19,14 @@ class AppInstanceModel {
   // public_address 公有地址
   public public_address: string;
 
-  // instance_type 实例规格
-  public instance_type: string;
-
   // origin_image_id 原有镜像id
   public origin_image_id: string;
 
-  // remove_time 释放时间
-  public remove_time?: string;
+  // instance_type 实例规格
+  public instance_type: string;
+
+  // hours 使用时长
+  public hours: number = 0;
 
   // private_address 私有地址
   public private_address: string;
@@ -42,13 +45,14 @@ class AppInstanceModel {
 const AppInstanceModelFields = {
   id: "id",
   deleted: "deleted",
+  auto_save: "auto_save",
   status: "status",
   image_id: "image_id",
   application_id: "application_id",
   public_address: "public_address",
-  instance_type: "instance_type",
   origin_image_id: "origin_image_id",
-  remove_time: "remove_time",
+  instance_type: "instance_type",
+  hours: "hours",
   private_address: "private_address",
   user_id: "user_id",
   instance_id: "instance_id",

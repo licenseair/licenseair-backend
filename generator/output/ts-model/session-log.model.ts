@@ -1,6 +1,9 @@
 class SessionLogModel {
   public id: number = 0;
 
+  // deleted 
+  public deleted: boolean = false;
+
   // sign 
   public sign?: string;
 
@@ -20,6 +23,7 @@ class SessionLogModel {
 
 const SessionLogModelFields = {
   id: "id",
+  deleted: "deleted",
   sign: "sign",
   user_id: "user_id",
   key: "key",

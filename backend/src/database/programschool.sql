@@ -313,6 +313,7 @@ CREATE TABLE "app_instance" (
   image_id text NOT NULL,
   origin_image_id text NOT NULL,
   instance_id text NOT NULL,
+  password text NOT NULL,
   instance_type text NOT NULL,
   hours int2 NOT NULL default 1,
   auto_save boolean NOT NULL DEFAULT false,
@@ -329,6 +330,7 @@ COMMENT ON COLUMN "public"."app_instance"."status" IS '实例状态 Pending | St
 COMMENT ON COLUMN "public"."app_instance"."image_id" IS '镜像id';
 COMMENT ON COLUMN "public"."app_instance"."origin_image_id" IS '原有镜像id';
 COMMENT ON COLUMN "public"."app_instance"."instance_id" IS '实例id';
+COMMENT ON COLUMN "public"."app_instance"."password" IS '实例id';
 COMMENT ON COLUMN "public"."app_instance"."instance_type" IS '实例规格';
 COMMENT ON COLUMN "public"."app_instance"."hours" IS '使用时长';
 COMMENT ON COLUMN "public"."app_instance"."auto_save" IS '是否删除';

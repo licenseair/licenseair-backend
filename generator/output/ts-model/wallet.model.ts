@@ -2,7 +2,7 @@ class WalletModel {
   public id: number = 0;
 
   // deleted 
-  public deleted?: number = 0;
+  public deleted: boolean = false;
 
   // user_id 
   public user_id: number = 0;

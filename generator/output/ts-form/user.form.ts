@@ -80,7 +80,7 @@ export class UserForm {
       key: 'active',
       type: 'input',
       templateOptions: {
-        label: '0未激活，1激活',
+        label: '是否激活',
         type: 'text',
         required: false,
         minLength: 1,

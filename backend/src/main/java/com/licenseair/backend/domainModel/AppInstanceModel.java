@@ -67,6 +67,11 @@ public class AppInstanceModel {
   */
   public String instance_id = null;
 
+  /**
+  * 实例password
+  */
+  public String password = null;
+
   public Timestamp created_at = null;
 
   public Timestamp updated_at = null;

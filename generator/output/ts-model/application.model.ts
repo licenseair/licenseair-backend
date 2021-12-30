@@ -11,7 +11,7 @@ class ApplicationModel {
   public platform: string[] = [];
 
   // deleted 是否删除
-  public deleted?: number = 0;
+  public deleted: boolean = false;
 
   // languages 支持语言
   public languages: string[] = [];

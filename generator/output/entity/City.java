@@ -45,7 +45,7 @@ public class City extends Model {
   /**
   *
   */
-  public Integer deleted = 0;
+  public boolean deleted = false;
 
   /**
   *

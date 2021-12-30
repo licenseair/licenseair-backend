@@ -113,13 +113,13 @@ public class InstanceImageService extends BaseService {
    * @return
    */
   public DataResource query(QueryRequest params) {
-    ExpressionList where = InstanceImage.find.query().where();
+    ExpressionList<InstanceImage> where = InstanceImage.find.query().where();
 
     if(this.fieldExist(InstanceImage.class, "deleted")) {
-      where.ne("deleted" ,1);
+      where.ne("deleted", true);
     }
     if(this.fieldExist(InstanceImage.class, "active")) {
-      where.eq("active" ,1);
+      where.eq("active", true);
     }
 
     if(params.columns != null) {
@@ -179,6 +179,13 @@ public class InstanceImageService extends BaseService {
           array.add(item);
         });
         where.arrayContains(params.query.arrayContains.field, array.toArray());
+      }
+      if(params.query.idIn != null) {
+        List<Integer> Ids = new ArrayList<>();
+        params.query.idIn.forEach(item -> {
+          Ids.add(item);
+        });
+        where.idIn(Ids);
       }
       if(params.query.order != null && params.query.order.size() > 0) {
         params.query.order.forEach((String sort) -> {

@@ -1,0 +1,65 @@
+server:
+  port: 1999
+  ## log级别设置为debug, 通过log.debug打印异常信息
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    root: ERROR #DEBUG
+    org.springframework.web: ERROR
+    guru.springframework.controllers: ERROR
+  # 开启spring 错误页面（spring 默认开启）
+  error:
+    whitelabel:
+      enabled: true
+  file:
+    path: ./logs
+
+spring:
+  # config:
+  #  activate:
+  #    on-profile: "dev"
+  application:
+    name: monitor
+  # 让404错误抛出异常，需要同时设置spring.resources.add-mappings为false
+  # 让404错误抛出异常
+  mvc:
+    throw-exception-if-no-handler-found: true
+  # 禁用静态资源的自动映射，如不禁用不存在的url将被映射到，servlet不有机会抛出异常
+  # 出现错误时, 直接抛出异常(便于异常统一处理，否则捕获不到404)
+  web:
+    resources:
+      add-mappings: false
+
+datasource:
+  db:
+    username: "licenseair"
+    password: "123456"
+    url: jdbc:postgresql://192.168.50.110:5432/licenseair?serverTimezone=PRC&stringtype=unspecified
+    driver: org.postgresql.Driver
+
+ebean:
+  search:
+    packages: com.licenseair.backend.domain
+
+site:
+  rootPath: "monitor"
+  url: http://localhost:4200
+  payReturn: http://localhost:9090/buy/return-notify
+  payNotify: http://localhost:9090/buy/notify
+  payOk: http://localhost:4200/pay/ok
+  payError: http://localhost:4200/pay/error?message=
+
+docker:
+  serviceApi: https://docker.boxlayer.com
+  imageRegistryHost: boxlayer.com
+  containerRegistryHost: container.boxlayer.com
+  domainSuffix: "programschool.cn"
+
+ali:
+  OSS:
+    bookEndpoint: oss-cn-wulanchabu.aliyuncs.com
+    imageEndpoint: oss-cn-wulanchabu.aliyuncs.com
+
+#http:
+#  converters:
+#    preferred-json-mapper: gson

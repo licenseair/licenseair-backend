@@ -5,7 +5,7 @@ class LanguageModel {
   public tag: string;
 
   // deleted 
-  public deleted?: number = 0;
+  public deleted: boolean = false;
 
   // description 
   public description: string;

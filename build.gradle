@@ -11,10 +11,11 @@ buildscript {
 }
 
 plugins {
-  id 'org.springframework.boot' version '2.6.0'
+  id 'org.springframework.boot' version '2.6.1'
+  id "io.spring.dependency-management" version "1.0.11.RELEASE"
   id 'java'
   id('idea')
-  id('io.ebean') version '12.12.1'
+  id('io.ebean') version '12.14.0'
 }
 
 allprojects {
@@ -24,7 +25,9 @@ allprojects {
 }
 
 subprojects {
-  apply plugin: "org.springframework.boot"
+  apply plugin: 'org.springframework.boot'
+  apply plugin: 'io.spring.dependency-management'
+  apply plugin: 'java'
 
   repositories {
     mavenCentral()

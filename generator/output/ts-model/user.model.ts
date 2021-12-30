@@ -2,7 +2,7 @@ class UserModel {
   public id: number = 0;
 
   // deleted 是否删除
-  public deleted?: number = 0;
+  public deleted: boolean = false;
 
   // email 邮箱地址
   public email?: string;
@@ -16,8 +16,8 @@ class UserModel {
   // domain 用户域名
   public domain?: string;
 
-  // active 0未激活，1激活
-  public active: number = 0;
+  // active 是否激活
+  public active: boolean = false;
 
   // username 用户名
   public username: string;

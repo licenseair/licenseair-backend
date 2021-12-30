@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpService} from '@services/http/http.service';
 import {AppInstanceModel} from '@app/models/app-instance.model';
 import {BaseService} from '@services/data/base.service';
-import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,27 +11,6 @@ export class AppInstanceService extends BaseService {
     private http: HttpService
   ) {
     super();
-  }
-
-  public appInstance: AppInstanceModel;
-  public appInstanceList: AppInstanceModel[];
-
-  private appInstanceSource = new Subject<AppInstanceModel>();
-  // Observable string streams
-  appInstance$ = this.appInstanceSource.asObservable();
-
-  private appInstanceListSource = new Subject<AppInstanceModel[]>();
-  // Observable string streams
-  appInstanceList$ = this.appInstanceListSource.asObservable();
-
-  setAppInstance(appInstance: AppInstanceModel) {
-    this.appInstance = appInstance;
-    this.appInstanceSource.next(appInstance);
-  }
-
-  setAppInstanceList(appInstanceList: AppInstanceModel[] = []) {
-    this.appInstanceList = appInstanceList;
-    this.appInstanceListSource.next(appInstanceList);
   }
 
   query = (params: object) => {

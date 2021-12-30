@@ -2,7 +2,7 @@ class InstanceTypeModel {
   public id: number = 0;
 
   // deleted 是否删除
-  public deleted?: number = 0;
+  public deleted: boolean = false;
 
   // name 名称
   public name: string;

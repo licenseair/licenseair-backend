@@ -13,6 +13,22 @@ export class AppInstanceForm {
 
   fields: FormlyFieldConfig[] = [
     {
+      key: 'auto_save',
+      type: 'input',
+      templateOptions: {
+        label: '是否删除',
+        type: 'text',
+        required: false,
+        minLength: 1,
+      },
+      validators: {
+        // pattern: {
+        //   expression: (c) => !c.value || /(\d{1,3}\.){3}\d{1,3}/.test(c.value),
+        //   message: (error, field: FormlyFieldConfig) => `"$\{field.formControl.value\}" is not a valid IP Address`,
+        // },
+      },
+    },
+    {
       key: 'status',
       type: 'input',
       templateOptions: {
@@ -79,22 +95,6 @@ export class AppInstanceForm {
       },
     },
     {
-      key: 'instance_type',
-      type: 'input',
-      templateOptions: {
-        label: '实例规格',
-        type: 'text',
-        required: false,
-        minLength: 1,
-      },
-      validators: {
-        // pattern: {
-        //   expression: (c) => !c.value || /(\d{1,3}\.){3}\d{1,3}/.test(c.value),
-        //   message: (error, field: FormlyFieldConfig) => `"$\{field.formControl.value\}" is not a valid IP Address`,
-        // },
-      },
-    },
-    {
       key: 'origin_image_id',
       type: 'input',
       templateOptions: {
@@ -111,12 +111,29 @@ export class AppInstanceForm {
       },
     },
     {
-      key: 'remove_time',
+      key: 'instance_type',
       type: 'input',
       templateOptions: {
-        label: '释放时间',
+        label: '实例规格',
         type: 'text',
-        required: true,
+        required: false,
+        minLength: 1,
+      },
+      validators: {
+        // pattern: {
+        //   expression: (c) => !c.value || /(\d{1,3}\.){3}\d{1,3}/.test(c.value),
+        //   message: (error, field: FormlyFieldConfig) => `"$\{field.formControl.value\}" is not a valid IP Address`,
+        // },
+      },
+    },
+    {
+      key: 'hours',
+      type: 'input',
+      templateOptions: {
+        label: '使用时长',
+        type: 'text',
+        required: false,
+        minLength: 1,
       },
       validators: {
         // pattern: {

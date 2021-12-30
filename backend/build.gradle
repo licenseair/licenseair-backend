@@ -1,51 +1,55 @@
 plugins {
-	id 'org.springframework.boot'
-	id 'io.spring.dependency-management'
-	id 'java'
-	id('idea')
-	id('io.ebean')
+  id 'org.springframework.boot'
+  id 'io.spring.dependency-management'
+  id 'java'
+  id('idea')
+  id('io.ebean')
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
 }
 
 repositories {
-	mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-security:2.6.1'
-	implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.1'
-	implementation 'org.springframework.boot:spring-boot-starter-web:2.6.1'
-	compileOnly 'org.projectlombok:lombok:1.18.22'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools:2.6.1'
-	runtimeOnly 'org.postgresql:postgresql:42.3.1'
-	annotationProcessor 'org.projectlombok:lombok:1.18.22'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.1'
-	testImplementation 'org.springframework.security:spring-security-test:5.5.1'
+  implementation 'org.springframework.boot:spring-boot-starter-security:2.6.1'
+  implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.1'
+  implementation 'org.springframework.boot:spring-boot-starter-web:2.6.1'
+  compileOnly 'org.projectlombok:lombok:1.18.22'
+  developmentOnly 'org.springframework.boot:spring-boot-devtools:2.6.1'
+  runtimeOnly 'org.postgresql:postgresql:42.3.1'
+  annotationProcessor 'org.projectlombok:lombok:1.18.22'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.1'
+  testImplementation 'org.springframework.security:spring-security-test:5.5.1'
 
-	compileOnly 'io.ebean:ebean:12.13.1'
-	// query bean generation
-	annotationProcessor 'io.ebean:querybean-generator:12.13.1'
-	testImplementation 'io.ebean:ebean-test:12.13.1'
+  compileOnly 'io.ebean:ebean:12.14.0'
+  compileOnly 'io.ebean:ebean-querybean:12.14.0'
+  implementation 'io.ebean:ebean-core:12.14.0'
+  implementation 'io.ebean:ebean-datasource:7.3'
+  implementation 'io.ebean:ebean-api:12.14.0'
+  // query bean generation
+  annotationProcessor 'io.ebean:querybean-generator:12.14.0'
+  testImplementation 'io.ebean:ebean-test:12.14.0'
 
-	implementation 'com.google.code.gson:gson:2.8.9'
+  implementation 'com.google.code.gson:gson:2.8.9'
 
-	compileOnly 'io.jsonwebtoken:jjwt-api:0.11.2'
-	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2',
-			// 'io.jsonwebtoken:jjwt-jackson:0.11.2' // or 'io.jsonwebtoken:jjwt-gson:0.11.2' for gson
-			'io.jsonwebtoken:jjwt-gson:0.11.2' // or 'io.jsonwebtoken:jjwt-gson:0.11.2' for gson
+  compileOnly 'io.jsonwebtoken:jjwt-api:0.11.2'
+  runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2',
+    // 'io.jsonwebtoken:jjwt-jackson:0.11.2' // or 'io.jsonwebtoken:jjwt-gson:0.11.2' for gson
+    'io.jsonwebtoken:jjwt-gson:0.11.2' // or 'io.jsonwebtoken:jjwt-gson:0.11.2' for gson
 
-	implementation group: 'com.aliyun', name: 'aliyun-java-sdk-core', version: '4.5.30'
+  implementation group: 'com.aliyun', name: 'aliyun-java-sdk-core', version: '4.5.30'
 
-	implementation group: 'com.aliyun.oss', name: 'aliyun-sdk-oss', version: '3.13.2'
-	implementation group: 'com.aliyun', name: 'aliyun-java-sdk-ecs', version: '4.24.12'
+  implementation group: 'com.aliyun.oss', name: 'aliyun-sdk-oss', version: '3.13.2'
+  implementation group: 'com.aliyun', name: 'aliyun-java-sdk-ecs', version: '4.24.12'
 
 }
 
 test {
-	useJUnitPlatform()
+  useJUnitPlatform()
 }

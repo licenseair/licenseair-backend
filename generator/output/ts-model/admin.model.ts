@@ -2,7 +2,7 @@ class AdminModel {
   public id: number = 0;
 
   // deleted 是否删除
-  public deleted?: number = 0;
+  public deleted: boolean = false;
 
   // email 
   public email: string;
@@ -13,8 +13,8 @@ class AdminModel {
   // password 
   public password: string;
 
-  // active 0未激活，1激活
-  public active: number = 0;
+  // active 是否激活
+  public active: boolean = false;
 
   // username 网站显示
   public username: string;

@@ -5,7 +5,7 @@ class CityModel {
   public province: string;
 
   // deleted 
-  public deleted?: number = 0;
+  public deleted: boolean = false;
 
   // city 
   public city: string;

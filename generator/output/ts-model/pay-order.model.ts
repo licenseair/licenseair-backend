@@ -5,7 +5,7 @@ class PayOrderModel {
   public snapshot?: string;
 
   // deleted 是否删除
-  public deleted?: number = 0;
+  public deleted: boolean = false;
 
   // trade_no 订单号
   public trade_no: string;

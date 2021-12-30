@@ -38,7 +38,7 @@ public class InstanceImage extends Model {
   /**
   *
   */
-  public Integer deleted = 0;
+  public boolean deleted = false;
 
   /**
   * 忙碌 false为可用

@@ -2,7 +2,7 @@ class PlatformModel {
   public id: number = 0;
 
   // deleted 
-  public deleted?: number = 0;
+  public deleted: boolean = false;
 
   // name 
   public name: string;
