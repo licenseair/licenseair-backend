@@ -1,5 +1,6 @@
 package com.licenseair.backend.controller;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.licenseair.backend.commons.model.*;
 import com.licenseair.backend.commons.util.HttpRequestException;
 import com.licenseair.backend.commons.util.HttpRequestFormException;
@@ -13,8 +14,6 @@ import io.ebean.Transaction;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 /**
  * Created by licenseair.com
@@ -39,7 +38,6 @@ public class AppInstanceController extends BaseController {
       if(instanceImage != null) {
         appInstance.setImage_id(instanceImage.image_id);
         appInstance.setApplication_id(instanceImage.application_id);
-        appInstance.setOrigin_image_id(instanceImage.image_id);
         appInstance.setStatus(ServerStatus.Pending);
 
         // 设置镜像为忙碌
@@ -68,13 +66,17 @@ public class AppInstanceController extends BaseController {
   private UpdateResponse update(@RequestBody AppInstanceModel appInstance) throws HttpRequestException, HttpRequestFormException {
     AppInstanceService appInstanceService = new AppInstanceService(AuthUser);
     try {
-      return new UpdateResponse(appInstanceService.update(appInstance));
+      AppInstance instance = appInstanceService.update(appInstance);
+      UpdateResponse res = new UpdateResponse(instance);
+      AliyunInstances instances = new AliyunInstances();
+      instances.callToStopInstances(instance.instance_id);
+      return res;
     } catch (HttpRequestException e) {
       throw new HttpRequestException(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
   }
 
-  @PostMapping("/delete")
+  // @PostMapping("/delete")
   private DeleteResponse delete(@RequestBody @Validated IDModel idModel) throws HttpRequestException {
     AppInstanceService appInstanceService = new AppInstanceService(AuthUser);
     try {

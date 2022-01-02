@@ -178,15 +178,15 @@ CREATE TABLE "application" (
   name text NOT NULL,
   path text NOT NULL,
   icon char(42) NOT NULL,
-  category bigint[] NOT NULL,
+  category text[] NOT NULL,
   tags text[] NULL,
-  languages bigint[] NOT NULL,
+  languages text[] NOT NULL,
   version text NOT NULL,
   introduce text NOT NULL,
   price numeric(10,2) NULL default 0.00,
   official_price numeric(10,2) NULL default 0.00,
   usable boolean NOT NULL DEFAULT false,
-  platform bigint[] NOT NULL,
+  platform text[] NOT NULL,
   deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP
@@ -311,7 +311,6 @@ CREATE TABLE "app_instance" (
   public_address char(15) NOT NULL,
   status char(16) NOT NULL DEFAULT 'Pending',
   image_id text NOT NULL,
-  origin_image_id text NOT NULL,
   instance_id text NOT NULL,
   password text NOT NULL,
   instance_type text NOT NULL,
@@ -328,7 +327,6 @@ COMMENT ON COLUMN "public"."app_instance"."private_address" IS '私有地址';
 COMMENT ON COLUMN "public"."app_instance"."public_address" IS '公有地址';
 COMMENT ON COLUMN "public"."app_instance"."status" IS '实例状态 Pending | Starting | Running ｜ Stopping';
 COMMENT ON COLUMN "public"."app_instance"."image_id" IS '镜像id';
-COMMENT ON COLUMN "public"."app_instance"."origin_image_id" IS '原有镜像id';
 COMMENT ON COLUMN "public"."app_instance"."instance_id" IS '实例id';
 COMMENT ON COLUMN "public"."app_instance"."password" IS '实例id';
 COMMENT ON COLUMN "public"."app_instance"."instance_type" IS '实例规格';

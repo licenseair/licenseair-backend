@@ -49,7 +49,7 @@ public class Application extends Model {
   */
   @NotNull(message = "分类不能是空")
   @DbArray
-  public List<Long> category = new ArrayList<>();
+  public List<String> category = new ArrayList<>();
 
   /**
   * 是否删除
@@ -61,14 +61,14 @@ public class Application extends Model {
   */
   @NotNull(message = "支持系统平台不能是空")
   @DbArray
-  public List<Long> platform = new ArrayList<>();
+  public List<String> platform = new ArrayList<>();
 
   /**
   * 支持语言
   */
   @NotNull(message = "支持语言不能是空")
   @DbArray
-  public List<Long> languages = new ArrayList<>();
+  public List<String> languages = new ArrayList<>();
 
   /**
   * 简介

@@ -38,11 +38,11 @@ public class AliyunInstances {
   /**
    * 是否只预检此次请求。true：发送检查请求，不会创建实例，也不会产生费用；false：发送正常请求，通过检查后直接创建实例，并直接产生费用
    */
-  private static final boolean dryRun = true;
+  private static final boolean dryRun = false;
   /**
    * 实例所属的地域ID
    */
-  private final String regionId = "cn-wulanchabu";
+  private final String regionId = "cn-zhangjiakou";
   /**
    * 实例的资源规格
    */
@@ -58,7 +58,7 @@ public class AliyunInstances {
   /**
    * 指定新创建实例所属于的安全组ID
    */
-  private final String securityGroupId = "sg-0jl3ka6qaylg7zjo959h";
+  private final String securityGroupId = "sg-8vbazwei4j05uzmqbkhn";
   /**
    * 购买资源的时长
    */
@@ -70,7 +70,7 @@ public class AliyunInstances {
   /**
    * 实例所属的可用区编号
    */
-  private final String zoneId = "cn-wulanchabu-c";
+  private final String zoneId = "cn-zhangjiakou-a";
   /**
    * 网络计费类型
    */
@@ -78,7 +78,7 @@ public class AliyunInstances {
   /**
    * 虚拟交换机ID
    */
-  private final String vSwitchId = "vsw-0jlm1anz254gta4jp9t8u";
+  private final String vSwitchId = "vsw-8vbe6szd6laub18u6yxsn";
   /**
    * 实例名称
    */
@@ -103,10 +103,16 @@ public class AliyunInstances {
    * 系统盘大小
    */
   private final String systemDiskSize = "40";
+
   /**
    * 系统盘的磁盘种类
    */
   private final String systemDiskCategory = "cloud_essd";
+
+  /**
+   * 性能级别
+   */
+  private String systemDiskPerformanceLevel = "PL0";
 
   /**
    * 需要填充账号的AccessKey ID，以及账号的Access Key Secret
@@ -170,6 +176,7 @@ public class AliyunInstances {
     runInstancesRequest.setSecurityEnhancementStrategy(securityEnhancementStrategy);
     runInstancesRequest.setSystemDiskSize(systemDiskSize);
     runInstancesRequest.setSystemDiskCategory(systemDiskCategory);
+    runInstancesRequest.setSystemDiskPerformanceLevel(systemDiskPerformanceLevel);
     // default username administrator
 
     String password = this.generatePassword();
@@ -238,7 +245,6 @@ public class AliyunInstances {
       this.callToRestartInstances(instanceId);
     }
   }
-
 
   /**
    * 每3秒中检查一次实例的状态，超时时间设为5分钟。
