@@ -2,6 +2,8 @@ package com.licenseair.monitor;
 
 // import com.licenseair.backend.commons.model.ServerStatus;
 // import com.licenseair.backend.domain.AppInstance;
+import com.licenseair.backend.commons.model.ServerStatus;
+import com.licenseair.backend.domain.AppInstance;
 import io.ebean.DatabaseFactory;
 import io.ebean.config.DatabaseConfig;
 import io.ebean.datasource.DataSourceConfig;
@@ -21,27 +23,39 @@ public class MonitorApplication {
     monitor();
   }
 
-  private static void monitor() throws InterruptedException {
+  private static void monitor() {
     while (true) {
       sleepSomeTime(1000 * 10); // 10分钟检查一次
 
       Timestamp timestamp = new Timestamp(System.currentTimeMillis());
       Calendar cal = new GregorianCalendar();
       cal.setTime(timestamp);
-      cal.add(Calendar.MINUTE, -45); // 超过45分钟自动保存
-      Timestamp fortyMinutesBefore = new Timestamp(cal.getTimeInMillis());
 
-      System.out.printf("Check Time: %s%n", fortyMinutesBefore);
 
-      // List<AppInstance> AppInstanceList = AppInstance.find.query().where()
-      //   .order("id DESC")
-      //   .eq("status", ServerStatus.Running)
-      //   .lt("updated_at", fortyMinutesBefore)
-      //   .findList();
+      List<AppInstance> AppInstanceList = AppInstance.find.query().where()
+        .order("id DESC")
+        .eq("status", ServerStatus.Running)
+        .findList();
 
-      // AppInstanceList.forEach(ai -> {
-      //   // deleteInstances(ai.instance_id,5);
-      // });
+      System.out.println(AppInstanceList.size());
+
+      AppInstanceList.forEach(ai -> {
+        cal.add(Calendar.MINUTE, -(ai.hours * 60)); // 超过预定时间自动保存/释放
+        Timestamp fortyMinutesBefore = new Timestamp(cal.getTimeInMillis());
+        System.out.printf("Check Time: %s%n", fortyMinutesBefore);
+        // System.out.printf("Update Time: %s%n", ai.updated_at);
+        if(ai.updated_at.after(fortyMinutesBefore)) {
+          System.out.println(ai.instance_id);
+          System.out.println(ai.updated_at);
+          if (ai.auto_save) {
+            // 保存
+            // saveInstances(ai.instance_id,5);
+          } else {
+            // 释放
+            // deleteInstances(ai.instance_id,5);
+          }
+        }
+      });
     }
   }
 
