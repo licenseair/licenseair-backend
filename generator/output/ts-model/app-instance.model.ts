@@ -28,6 +28,9 @@ class AppInstanceModel {
   // hours 使用时长
   public hours: number = 0;
 
+  // password 实例id
+  public password: string;
+
   // private_address 私有地址
   public private_address: string;
 
@@ -53,6 +56,7 @@ const AppInstanceModelFields = {
   origin_image_id: "origin_image_id",
   instance_type: "instance_type",
   hours: "hours",
+  password: "password",
   private_address: "private_address",
   user_id: "user_id",
   instance_id: "instance_id",

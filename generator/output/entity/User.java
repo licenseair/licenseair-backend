@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.lang.String;
-import java.lang.Integer;
+import java.lang.Boolean;
 import java.sql.Timestamp;
 
 /**
@@ -36,7 +36,8 @@ public class User extends Model {
   /**
   * 是否删除
   */
-  public boolean deleted = false;
+  @NotNull(message = "是否删除不能是空")
+  public Boolean deleted;
 
   /**
   * 邮箱地址
@@ -72,10 +73,10 @@ public class User extends Model {
   public String domain;
 
   /**
-  * 0未激活，1激活
+  * 是否激活
   */
-  @NotNull(message = "0未激活，1激活不能是空")
-  public Integer active = 0;
+  @NotNull(message = "是否激活不能是空")
+  public Boolean active;
 
   /**
   * 用户名

@@ -19,7 +19,7 @@ import java.util.List;
 
 import java.lang.Long;
 import java.math.BigDecimal;
-import java.lang.Integer;
+import java.lang.Boolean;
 import java.sql.Timestamp;
 
 /**
@@ -35,12 +35,13 @@ public class Wallet extends Model {
   public Long id;
 
   /**
-  *
+  * 
   */
-  public boolean deleted = false;
+  @NotNull(message = "不能是空")
+  public Boolean deleted;
 
   /**
-  *
+  * 
   */
   @NotNull(message = "不能是空")
   @Unique(table = "public.wallet", column = "user_id", message = "已经存在", groups = {Uni.class})
@@ -51,9 +52,7 @@ public class Wallet extends Model {
   */
   @Digits(integer = 10, fraction = 2, message = "余额长度不正确")
   @NotNull(message = "余额不能是空")
-  @NotBlank(message = "余额不能是空")
-  @NotEmpty(message = "余额不能是空")
-  public BigDecimal money = new BigDecimal(0.00);
+  public BigDecimal money = new BigDecimal('0.00');
 
   @WhenCreated
   public Timestamp created_at = new Timestamp(System.currentTimeMillis());

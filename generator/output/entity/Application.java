@@ -20,7 +20,6 @@ import java.util.List;
 import java.lang.String;
 import java.math.BigDecimal;
 import java.lang.Boolean;
-import java.lang.Integer;
 import java.sql.Timestamp;
 
 /**
@@ -61,7 +60,8 @@ public class Application extends Model {
   /**
   * 是否删除
   */
-  public boolean deleted = false;
+  @NotNull(message = "是否删除不能是空")
+  public Boolean deleted;
 
   /**
   * 支持语言
@@ -82,7 +82,7 @@ public class Application extends Model {
   * 价格
   */
   @Digits(integer = 10, fraction = 2, message = "价格长度不正确")
-  public BigDecimal price = new BigDecimal(0.00);
+  public BigDecimal price = new BigDecimal('0.00');
 
   /**
   * 当前版本
@@ -111,7 +111,7 @@ public class Application extends Model {
   * 官方价格
   */
   @Digits(integer = 10, fraction = 2, message = "官方价格长度不正确")
-  public BigDecimal official_price = new BigDecimal(0.00);
+  public BigDecimal official_price = new BigDecimal('0.00');
 
   /**
   * 标签

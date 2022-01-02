@@ -19,7 +19,7 @@ import java.util.List;
 
 import java.lang.String;
 import java.lang.Long;
-import java.lang.Integer;
+import java.lang.Boolean;
 import java.sql.Timestamp;
 
 /**
@@ -35,9 +35,10 @@ public class Auth2 extends Model {
   public Long id;
 
   /**
-  *
+  * 
   */
-  public boolean deleted = false;
+  @NotNull(message = "不能是空")
+  public Boolean deleted;
 
   /**
   * unionid
@@ -45,7 +46,7 @@ public class Auth2 extends Model {
   public String unionid;
 
   /**
-  *
+  * 
   */
   @NotNull(message = "不能是空")
   public Long user_id = 0L;
@@ -67,7 +68,7 @@ public class Auth2 extends Model {
   public String source;
 
   /**
-  *
+  * 
   */
   @NotNull(message = "不能是空")
   @NotBlank(message = "不能是空")

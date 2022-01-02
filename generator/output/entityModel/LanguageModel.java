@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.Data;
 
 import java.lang.String;
-import java.lang.Integer;
+import java.lang.Boolean;
 import java.sql.Timestamp;
 
 /**
@@ -16,17 +16,17 @@ public class LanguageModel {
   public Long id = null;
 
   /**
-  *
+  * 
   */
   public String tag = null;
 
   /**
-  *
+  * 
   */
-  public Integer deleted = null;
+  public Boolean deleted = null;
 
   /**
-  *
+  * 
   */
   public String description = null;
 

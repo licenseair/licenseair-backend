@@ -19,8 +19,8 @@ import java.util.List;
 
 import java.lang.String;
 import java.lang.Long;
+import java.lang.Boolean;
 import java.sql.Date;
-import java.lang.Integer;
 import java.sql.Timestamp;
 
 /**
@@ -38,7 +38,8 @@ public class Profile extends Model {
   /**
   * 是否删除
   */
-  public boolean deleted = false;
+  @NotNull(message = "是否删除不能是空")
+  public Boolean deleted;
 
   /**
   * 公司

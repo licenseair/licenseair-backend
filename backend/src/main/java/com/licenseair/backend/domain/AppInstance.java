@@ -1,9 +1,11 @@
 package com.licenseair.backend.domain;
 
+import com.licenseair.backend.validation.isUnique.Unique;
 import io.ebean.Finder;
 import io.ebean.Model;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
+import io.ebean.annotation.DbArray;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,10 +14,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import java.lang.String;
 import java.lang.Long;
-import java.sql.Timestamp;
+import java.lang.Boolean;
 import java.lang.Integer;
+import java.sql.Timestamp;
 
 /**
 * Created by licenseair.com
@@ -32,7 +38,14 @@ public class AppInstance extends Model {
   /**
   * 是否删除
   */
-  public boolean deleted = false;
+  @NotNull(message = "是否删除不能是空")
+  public Boolean deleted;
+
+  /**
+  * 是否删除
+  */
+  @NotNull(message = "是否删除不能是空")
+  public Boolean auto_save;
 
   /**
   * 实例状态 Pending | Starting | Running ｜ Stopping
@@ -67,6 +80,14 @@ public class AppInstance extends Model {
   public String public_address;
 
   /**
+  * 原有镜像id
+  */
+  @NotNull(message = "原有镜像id不能是空")
+  @NotBlank(message = "原有镜像id不能是空")
+  @NotEmpty(message = "原有镜像id不能是空")
+  public String origin_image_id;
+
+  /**
   * 实例规格
   */
   @NotNull(message = "实例规格不能是空")
@@ -75,18 +96,18 @@ public class AppInstance extends Model {
   public String instance_type;
 
   /**
-   * 使用时长
-   */
+  * 使用时长
+  */
   @NotNull(message = "使用时长不能是空")
   public Integer hours = 1;
 
   /**
-  * 原有镜像id
+  * 实例id
   */
-  @NotNull(message = "原有镜像id不能是空")
-  @NotBlank(message = "原有镜像id不能是空")
-  @NotEmpty(message = "原有镜像id不能是空")
-  public String origin_image_id;
+  @NotNull(message = "实例id不能是空")
+  @NotBlank(message = "实例id不能是空")
+  @NotEmpty(message = "实例id不能是空")
+  public String password;
 
   /**
   * 私有地址
@@ -110,14 +131,6 @@ public class AppInstance extends Model {
   @NotBlank(message = "实例id不能是空")
   @NotEmpty(message = "实例id不能是空")
   public String instance_id;
-
-  /**
-  * 实例password
-  */
-  @NotNull(message = "实例password不能是空")
-  @NotBlank(message = "实例password不能是空")
-  @NotEmpty(message = "实例password不能是空")
-  public String password;
 
   @WhenCreated
   public Timestamp created_at = new Timestamp(System.currentTimeMillis());

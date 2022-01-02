@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.lang.String;
-import java.lang.Integer;
+import java.lang.Boolean;
 import java.sql.Timestamp;
 
 /**
@@ -36,7 +36,8 @@ public class Category extends Model {
   /**
   * 是否删除
   */
-  public boolean deleted = false;
+  @NotNull(message = "是否删除不能是空")
+  public Boolean deleted;
 
   /**
   * 分类名称

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.lang.String;
+import java.lang.Boolean;
 import java.lang.Integer;
 import java.sql.Timestamp;
 
@@ -34,9 +35,10 @@ public class SmsLog extends Model {
   public Long id;
 
   /**
-  *
+  * 
   */
-  public boolean deleted = false;
+  @NotNull(message = "不能是空")
+  public Boolean deleted;
 
   /**
   * 手机号

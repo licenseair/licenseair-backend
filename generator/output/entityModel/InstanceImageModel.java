@@ -6,7 +6,6 @@ import lombok.Data;
 import java.lang.String;
 import java.lang.Long;
 import java.lang.Boolean;
-import java.lang.Integer;
 import java.sql.Timestamp;
 
 /**
@@ -18,9 +17,9 @@ public class InstanceImageModel {
   public Long id = null;
 
   /**
-  *
+  * 
   */
-  public Integer deleted = null;
+  public Boolean deleted = null;
 
   /**
   * 忙碌 false为可用
@@ -28,7 +27,7 @@ public class InstanceImageModel {
   public Boolean busy = null;
 
   /**
-  *
+  * 
   */
   public Long application_id = null;
 

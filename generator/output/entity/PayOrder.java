@@ -45,7 +45,8 @@ public class PayOrder extends Model {
   /**
   * 是否删除
   */
-  public boolean deleted = false;
+  @NotNull(message = "是否删除不能是空")
+  public Boolean deleted;
 
   /**
   * 订单号
@@ -62,9 +63,7 @@ public class PayOrder extends Model {
   */
   @Digits(integer = 10, fraction = 2, message = "价格（单位元）长度不正确")
   @NotNull(message = "价格（单位元）不能是空")
-  @NotBlank(message = "价格（单位元）不能是空")
-  @NotEmpty(message = "价格（单位元）不能是空")
-  public BigDecimal price = new BigDecimal(0.00);
+  public BigDecimal price = new BigDecimal('0.00');
 
   /**
   * subject id

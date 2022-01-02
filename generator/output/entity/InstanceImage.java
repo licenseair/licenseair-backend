@@ -20,7 +20,6 @@ import java.util.List;
 import java.lang.String;
 import java.lang.Long;
 import java.lang.Boolean;
-import java.lang.Integer;
 import java.sql.Timestamp;
 
 /**
@@ -36,9 +35,10 @@ public class InstanceImage extends Model {
   public Long id;
 
   /**
-  *
+  * 
   */
-  public boolean deleted = false;
+  @NotNull(message = "不能是空")
+  public Boolean deleted;
 
   /**
   * 忙碌 false为可用
@@ -47,7 +47,7 @@ public class InstanceImage extends Model {
   public Boolean busy;
 
   /**
-  *
+  * 
   */
   @NotNull(message = "不能是空")
   public Long application_id = 0L;

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.lang.String;
-import java.lang.Integer;
+import java.lang.Boolean;
 import java.sql.Timestamp;
 
 /**
@@ -34,12 +34,13 @@ public class Platform extends Model {
   public Long id;
 
   /**
-  *
+  * 
   */
-  public boolean deleted = false;
+  @NotNull(message = "不能是空")
+  public Boolean deleted;
 
   /**
-  *
+  * 
   */
   @NotNull(message = "不能是空")
   @NotBlank(message = "不能是空")

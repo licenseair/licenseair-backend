@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.lang.String;
 import java.lang.Long;
+import java.lang.Boolean;
 import java.lang.Integer;
 import java.sql.Timestamp;
 
@@ -17,17 +18,22 @@ public class SessionLogModel {
   public Long id = null;
 
   /**
-  *
+  * 
+  */
+  public Boolean deleted = null;
+
+  /**
+  * 
   */
   public String sign = null;
 
   /**
-  *
+  * 
   */
   public Long user_id = null;
 
   /**
-  *
+  * 
   */
   public String key = null;
 

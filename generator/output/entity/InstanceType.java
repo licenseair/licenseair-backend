@@ -19,7 +19,7 @@ import java.util.List;
 
 import java.lang.String;
 import java.math.BigDecimal;
-import java.lang.Integer;
+import java.lang.Boolean;
 import java.sql.Timestamp;
 
 /**
@@ -37,7 +37,8 @@ public class InstanceType extends Model {
   /**
   * 是否删除
   */
-  public boolean deleted = false;
+  @NotNull(message = "是否删除不能是空")
+  public Boolean deleted;
 
   /**
   * 名称
@@ -61,9 +62,7 @@ public class InstanceType extends Model {
   */
   @Digits(integer = 10, fraction = 2, message = "价格（单位元）/小时长度不正确")
   @NotNull(message = "价格（单位元）/小时不能是空")
-  @NotBlank(message = "价格（单位元）/小时不能是空")
-  @NotEmpty(message = "价格（单位元）/小时不能是空")
-  public BigDecimal price = new BigDecimal(0.00);
+  public BigDecimal price = new BigDecimal('0.00');
 
   @WhenCreated
   public Timestamp created_at = new Timestamp(System.currentTimeMillis());

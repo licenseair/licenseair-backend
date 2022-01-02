@@ -19,7 +19,7 @@ import java.util.List;
 
 import java.lang.String;
 import java.lang.Long;
-import java.sql.Timestamp;
+import java.lang.Boolean;
 import java.lang.Integer;
 import java.sql.Timestamp;
 
@@ -38,7 +38,14 @@ public class AppInstance extends Model {
   /**
   * 是否删除
   */
-  public boolean deleted = false;
+  @NotNull(message = "是否删除不能是空")
+  public Boolean deleted;
+
+  /**
+  * 是否删除
+  */
+  @NotNull(message = "是否删除不能是空")
+  public Boolean auto_save;
 
   /**
   * 实例状态 Pending | Starting | Running ｜ Stopping
@@ -73,14 +80,6 @@ public class AppInstance extends Model {
   public String public_address;
 
   /**
-  * 实例规格
-  */
-  @NotNull(message = "实例规格不能是空")
-  @NotBlank(message = "实例规格不能是空")
-  @NotEmpty(message = "实例规格不能是空")
-  public String instance_type;
-
-  /**
   * 原有镜像id
   */
   @NotNull(message = "原有镜像id不能是空")
@@ -89,9 +88,26 @@ public class AppInstance extends Model {
   public String origin_image_id;
 
   /**
-  * 释放时间
+  * 实例规格
   */
-  public Timestamp remove_time;
+  @NotNull(message = "实例规格不能是空")
+  @NotBlank(message = "实例规格不能是空")
+  @NotEmpty(message = "实例规格不能是空")
+  public String instance_type;
+
+  /**
+  * 使用时长
+  */
+  @NotNull(message = "使用时长不能是空")
+  public Integer hours = 1;
+
+  /**
+  * 实例id
+  */
+  @NotNull(message = "实例id不能是空")
+  @NotBlank(message = "实例id不能是空")
+  @NotEmpty(message = "实例id不能是空")
+  public String password;
 
   /**
   * 私有地址

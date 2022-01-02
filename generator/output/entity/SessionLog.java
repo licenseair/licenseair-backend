@@ -19,6 +19,7 @@ import java.util.List;
 
 import java.lang.String;
 import java.lang.Long;
+import java.lang.Boolean;
 import java.lang.Integer;
 import java.sql.Timestamp;
 
@@ -35,17 +36,23 @@ public class SessionLog extends Model {
   public Long id;
 
   /**
-  *
+  * 
+  */
+  @NotNull(message = "不能是空")
+  public Boolean deleted;
+
+  /**
+  * 
   */
   public String sign;
 
   /**
-  *
+  * 
   */
   public Long user_id;
 
   /**
-  *
+  * 
   */
   @Size(min = 0, max = 44, message = "长度不正确")
   public String key;

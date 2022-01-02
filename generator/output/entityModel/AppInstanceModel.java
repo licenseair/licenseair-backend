@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.lang.String;
 import java.lang.Long;
-import java.sql.Timestamp;
+import java.lang.Boolean;
 import java.lang.Integer;
 import java.sql.Timestamp;
 
@@ -20,7 +20,12 @@ public class AppInstanceModel {
   /**
   * 是否删除
   */
-  public Integer deleted = null;
+  public Boolean deleted = null;
+
+  /**
+  * 是否删除
+  */
+  public Boolean auto_save = null;
 
   /**
   * 实例状态 Pending | Starting | Running ｜ Stopping
@@ -43,19 +48,24 @@ public class AppInstanceModel {
   public String public_address = null;
 
   /**
-  * 实例规格
-  */
-  public String instance_type = null;
-
-  /**
   * 原有镜像id
   */
   public String origin_image_id = null;
 
   /**
-  * 释放时间
+  * 实例规格
   */
-  public Timestamp remove_time = null;
+  public String instance_type = null;
+
+  /**
+  * 使用时长
+  */
+  public Integer hours = null;
+
+  /**
+  * 实例id
+  */
+  public String password = null;
 
   /**
   * 私有地址

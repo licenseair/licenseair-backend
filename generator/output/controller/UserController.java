@@ -1,5 +1,6 @@
 package com.licenseair.backend.controller;
 
+import com.licenseair.backend.commons.model.*;
 import com.licenseair.backend.commons.util.HttpRequestException;
 import com.licenseair.backend.commons.util.HttpRequestFormException;
 import com.licenseair.backend.domain.User;

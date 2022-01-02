@@ -5,8 +5,8 @@ import lombok.Data;
 
 import java.lang.String;
 import java.lang.Long;
+import java.lang.Boolean;
 import java.sql.Date;
-import java.lang.Integer;
 import java.sql.Timestamp;
 
 /**
@@ -20,7 +20,7 @@ public class ProfileModel {
   /**
   * 是否删除
   */
-  public Integer deleted = null;
+  public Boolean deleted = null;
 
   /**
   * 公司

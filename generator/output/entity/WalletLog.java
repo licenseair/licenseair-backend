@@ -20,7 +20,7 @@ import java.util.List;
 import java.lang.String;
 import java.lang.Long;
 import java.math.BigDecimal;
-import java.lang.Integer;
+import java.lang.Boolean;
 import java.sql.Timestamp;
 
 /**
@@ -36,12 +36,13 @@ public class WalletLog extends Model {
   public Long id;
 
   /**
-  *
+  * 
   */
-  public boolean deleted = false;
+  @NotNull(message = "不能是空")
+  public Boolean deleted;
 
   /**
-  *
+  * 
   */
   @NotNull(message = "不能是空")
   public Long user_id = 0L;
@@ -51,9 +52,7 @@ public class WalletLog extends Model {
   */
   @Digits(integer = 10, fraction = 2, message = "资金变动长度不正确")
   @NotNull(message = "资金变动不能是空")
-  @NotBlank(message = "资金变动不能是空")
-  @NotEmpty(message = "资金变动不能是空")
-  public BigDecimal money = new BigDecimal(0.00);
+  public BigDecimal money = new BigDecimal('0.00');
 
   /**
   * 资金变动

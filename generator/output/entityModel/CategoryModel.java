@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.Data;
 
 import java.lang.String;
-import java.lang.Integer;
+import java.lang.Boolean;
 import java.sql.Timestamp;
 
 /**
@@ -18,7 +18,7 @@ public class CategoryModel {
   /**
   * 是否删除
   */
-  public Integer deleted = null;
+  public Boolean deleted = null;
 
   /**
   * 分类名称

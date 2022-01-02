@@ -6,7 +6,6 @@ import lombok.Data;
 import java.lang.String;
 import java.math.BigDecimal;
 import java.lang.Boolean;
-import java.lang.Integer;
 import java.sql.Timestamp;
 
 /**
@@ -35,7 +34,7 @@ public class ApplicationModel {
   /**
   * 是否删除
   */
-  public Integer deleted = null;
+  public Boolean deleted = null;
 
   /**
   * 支持语言

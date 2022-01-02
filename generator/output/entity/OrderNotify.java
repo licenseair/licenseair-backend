@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.lang.String;
+import java.lang.Boolean;
 import java.sql.Timestamp;
-import java.lang.Integer;
 import java.sql.Timestamp;
 
 /**
@@ -35,7 +35,7 @@ public class OrderNotify extends Model {
   public Long id;
 
   /**
-  *
+  * 
   */
   @Size(min = 0, max = 32, message = "长度不正确")
   public String method;
@@ -43,68 +43,69 @@ public class OrderNotify extends Model {
   /**
   * 是否删除
   */
-  public boolean deleted = false;
+  @NotNull(message = "是否删除不能是空")
+  public Boolean deleted;
 
   /**
-  *
+  * 
   */
   public String sign;
 
   /**
-  *
+  * 
   */
   @Size(min = 0, max = 32, message = "长度不正确")
   public String trade_no;
 
   /**
-  *
+  * 
   */
   @Size(min = 0, max = 16, message = "长度不正确")
   public String charset;
 
   /**
-  *
+  * 
   */
   @Size(min = 0, max = 16, message = "长度不正确")
   public String auth_app_id;
 
   /**
-  *
+  * 
   */
   @Size(min = 0, max = 64, message = "长度不正确")
   public String out_trade_no;
 
   /**
-  *
+  * 
   */
   public Timestamp timestamp;
 
   /**
-  *
+  * 
   */
   @Size(min = 0, max = 16, message = "长度不正确")
   public String app_id;
 
   /**
-  *
+  * 
   */
   @Size(min = 0, max = 4, message = "长度不正确")
   public String version;
 
   /**
-  *
+  * 
   */
   @Size(min = 0, max = 16, message = "长度不正确")
   public String seller_id;
 
   /**
-  *
+  * 
   */
   @Size(min = 0, max = 255, message = "长度不正确")
   public String total_amount;
 
   /**
-  *
+  * 
   */
   @Size(min = 0, max = 4, message = "长度不正确")
   public String sign_type;

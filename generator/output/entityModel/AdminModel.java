@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.Data;
 
 import java.lang.String;
-import java.lang.Integer;
+import java.lang.Boolean;
 import java.sql.Timestamp;
 
 /**
@@ -18,27 +18,27 @@ public class AdminModel {
   /**
   * 是否删除
   */
-  public Integer deleted = null;
+  public Boolean deleted = null;
 
   /**
-  *
+  * 
   */
   public String email = null;
 
   /**
-  *
+  * 
   */
   public String mobile = null;
 
   /**
-  *
+  * 
   */
   public String password = null;
 
   /**
-  * 0未激活，1激活
+  * 是否激活
   */
-  public Integer active = null;
+  public Boolean active = null;
 
   /**
   * 网站显示

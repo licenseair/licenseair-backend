@@ -27,7 +27,7 @@ public class PayOrderModel {
   /**
   * 是否删除
   */
-  public Integer deleted = null;
+  public Boolean deleted = null;
 
   /**
   * 订单号

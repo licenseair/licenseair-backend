@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.lang.String;
-import java.lang.Integer;
+import java.lang.Boolean;
 import java.sql.Timestamp;
 
 /**
@@ -36,10 +36,11 @@ public class Admin extends Model {
   /**
   * 是否删除
   */
-  public boolean deleted = false;
+  @NotNull(message = "是否删除不能是空")
+  public Boolean deleted;
 
   /**
-  *
+  * 
   */
   @Size(min = 0, max = 70, message = "长度不正确")
   @NotNull(message = "不能是空")
@@ -49,7 +50,7 @@ public class Admin extends Model {
   public String email;
 
   /**
-  *
+  * 
   */
   @Size(min = 0, max = 11, message = "长度不正确")
   @NotNull(message = "不能是空")
@@ -59,7 +60,7 @@ public class Admin extends Model {
   public String mobile;
 
   /**
-  *
+  * 
   */
   @Size(min = 0, max = 60, message = "长度不正确")
   @NotNull(message = "不能是空")
@@ -68,10 +69,10 @@ public class Admin extends Model {
   public String password;
 
   /**
-  * 0未激活，1激活
+  * 是否激活
   */
-  @NotNull(message = "0未激活，1激活不能是空")
-  public Integer active = 0;
+  @NotNull(message = "是否激活不能是空")
+  public Boolean active;
 
   /**
   * 网站显示

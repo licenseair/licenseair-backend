@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.lang.String;
 import java.math.BigDecimal;
-import java.lang.Integer;
+import java.lang.Boolean;
 import java.sql.Timestamp;
 
 /**
@@ -19,7 +19,7 @@ public class InstanceTypeModel {
   /**
   * 是否删除
   */
-  public Integer deleted = null;
+  public Boolean deleted = null;
 
   /**
   * 名称

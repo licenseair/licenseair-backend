@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.Data;
 
 import java.lang.String;
+import java.lang.Boolean;
 import java.lang.Integer;
 import java.sql.Timestamp;
 
@@ -16,9 +17,9 @@ public class SmsLogModel {
   public Long id = null;
 
   /**
-  *
+  * 
   */
-  public Integer deleted = null;
+  public Boolean deleted = null;
 
   /**
   * 手机号

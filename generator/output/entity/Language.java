@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.lang.String;
-import java.lang.Integer;
+import java.lang.Boolean;
 import java.sql.Timestamp;
 
 /**
@@ -34,7 +34,7 @@ public class Language extends Model {
   public Long id;
 
   /**
-  *
+  * 
   */
   @NotNull(message = "不能是空")
   @NotBlank(message = "不能是空")
@@ -42,12 +42,13 @@ public class Language extends Model {
   public String tag;
 
   /**
-  *
+  * 
   */
-  public boolean deleted = false;
+  @NotNull(message = "不能是空")
+  public Boolean deleted;
 
   /**
-  *
+  * 
   */
   @NotNull(message = "不能是空")
   @NotBlank(message = "不能是空")

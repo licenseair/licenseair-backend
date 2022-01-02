@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.lang.String;
-import java.lang.Integer;
+import java.lang.Boolean;
 import java.sql.Timestamp;
 
 /**
@@ -34,7 +34,7 @@ public class City extends Model {
   public Long id;
 
   /**
-  *
+  * 
   */
   @Size(min = 0, max = 64, message = "长度不正确")
   @NotNull(message = "不能是空")
@@ -43,12 +43,13 @@ public class City extends Model {
   public String province;
 
   /**
-  *
+  * 
   */
-  public boolean deleted = false;
+  @NotNull(message = "不能是空")
+  public Boolean deleted;
 
   /**
-  *
+  * 
   */
   @Size(min = 0, max = 64, message = "长度不正确")
   @NotNull(message = "不能是空")
@@ -57,7 +58,7 @@ public class City extends Model {
   public String city;
 
   /**
-  *
+  * 
   */
   @Size(min = 0, max = 64, message = "长度不正确")
   @NotNull(message = "不能是空")
