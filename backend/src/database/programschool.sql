@@ -305,8 +305,8 @@ COMMENT ON TABLE "public"."platform" IS '平台';
 
 CREATE TABLE "app_instance" (
   id bigserial PRIMARY KEY,
-  user_id bigint default 0 NOT NULL,
-  application_id bigint default 0 NOT NULL,
+  user_id bigint NOT NULL,
+  application_id bigint NOT NULL,
   private_address char(15) NOT NULL,
   public_address char(15) NOT NULL,
   status char(16) NOT NULL DEFAULT 'Pending',
@@ -314,7 +314,7 @@ CREATE TABLE "app_instance" (
   instance_id text NOT NULL,
   password text NOT NULL,
   instance_type text NOT NULL,
-  hours int2 NOT NULL default 1,
+  hours int2 NOT NULL,
   auto_save boolean NOT NULL DEFAULT false,
   deleted boolean NOT NULL DEFAULT false,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
