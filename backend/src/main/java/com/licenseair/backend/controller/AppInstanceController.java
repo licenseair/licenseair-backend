@@ -44,7 +44,8 @@ public class AppInstanceController extends BaseController {
         instanceImage.setBusy(true);
         instanceImage.save();
 
-        CreateResponse createResponse = new CreateResponse(appInstanceService.create(appInstance));
+        appInstance = appInstanceService.create(appInstance);
+        CreateResponse createResponse = new CreateResponse(appInstance);
         AliyunInstances instances = new AliyunInstances();
         instances.callToRunInstances(instanceImage, appInstance);
         transaction.commit();

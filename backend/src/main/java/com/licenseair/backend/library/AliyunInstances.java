@@ -20,6 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 删除：设置为Stopping状态，停止实例运行
+ * 保存：设置为Stopping状态，停止实例运行
+ * 实例监控：
+ * 检查所有Stopping状态实例，并且deleted=false/auto_save=false的记录，删除实例，修改deleted=true
+ * 检查所有Running状态实例，如果超过设定运行时间，根据auto_save值，保存或删除记录
+ */
+
 public class AliyunInstances {
   protected static final org.slf4j.Logger logger = LoggerFactory.getLogger(ErrorHandler.class);
 
@@ -135,13 +143,16 @@ public class AliyunInstances {
     //   JSON.toJson(((RunInstancesResponse)response).getInstanceIdSets())));
 
     new Thread(() -> {
-      appInstance.setInstance_id(response.getInstanceIdSets().get(0));
-      appInstance.setPassword(this.instancePassword);
-      System.out.println("instance_id");
-      System.out.println(appInstance.instance_id);
-      System.out.println(response.getInstanceIdSets());
-      appInstance.save();
-      callToDescribeInstances(response.getInstanceIdSets(), appInstance);
+      AppInstance appIn = AppInstance.find.byId(appInstance.id);
+      if(appIn != null) {
+        appIn.setInstance_id(response.getInstanceIdSets().get(0));
+        appIn.setPassword(this.instancePassword);
+        System.out.println("instance_id");
+        System.out.println(appIn.instance_id);
+        System.out.println(response.getInstanceIdSets());
+        appIn.save();
+        callToDescribeInstances(response.getInstanceIdSets(), appIn);
+      }
     }).start();
 
     return Map.of(

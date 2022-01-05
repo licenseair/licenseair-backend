@@ -68,7 +68,7 @@ public class AppInstance extends Model {
   * APPid
   */
   @NotNull(message = "APPid不能是空")
-  public Long application_id = 0L;
+  public Long application_id;
 
   /**
   * 公有地址
@@ -91,7 +91,7 @@ public class AppInstance extends Model {
   * 使用时长
   */
   @NotNull(message = "使用时长不能是空")
-  public Integer hours = 1;
+  public Integer hours;
 
   /**
   * 实例id
@@ -114,7 +114,7 @@ public class AppInstance extends Model {
   * 用户id
   */
   @NotNull(message = "用户id不能是空")
-  public Long user_id = 0L;
+  public Long user_id;
 
   /**
   * 实例id
