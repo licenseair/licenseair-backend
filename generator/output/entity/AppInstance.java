@@ -80,14 +80,6 @@ public class AppInstance extends Model {
   public String public_address;
 
   /**
-  * 原有镜像id
-  */
-  @NotNull(message = "原有镜像id不能是空")
-  @NotBlank(message = "原有镜像id不能是空")
-  @NotEmpty(message = "原有镜像id不能是空")
-  public String origin_image_id;
-
-  /**
   * 实例规格
   */
   @NotNull(message = "实例规格不能是空")

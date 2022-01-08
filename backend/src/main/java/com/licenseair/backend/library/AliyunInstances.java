@@ -215,26 +215,16 @@ public class AliyunInstances {
     DeleteInstanceRequest request = new DeleteInstanceRequest();
     request.setSysRegionId(regionId);
     request.setInstanceId(instanceId);
-
-    DeleteInstanceResponse response = client.getAcsResponse(request);
+    client.getAcsResponse(request);
   }
 
-  public void callToStopInstances(String instanceId) {
+  public void callToStopInstances(String instanceId) throws ClientException {
     StopInstanceRequest request = new StopInstanceRequest();
     request.setSysRegionId(regionId);
     request.setInstanceId(instanceId);
     request.setForceStop(true);
 
-    try {
-      StopInstanceResponse response = client.getAcsResponse(request);
-      logger.info(new Gson().toJson(response));
-    } catch (ServerException e) {
-      e.printStackTrace();
-    } catch (ClientException e) {
-      System.out.println("ErrCode:" + e.getErrCode());
-      System.out.println("ErrMsg:" + e.getErrMsg());
-      System.out.println("RequestId:" + e.getRequestId());
-    }
+    client.getAcsResponse(request);
   }
 
   public void callToRestartInstances(String instanceId) {

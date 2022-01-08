@@ -48,11 +48,6 @@ public class AppInstanceModel {
   public String public_address = null;
 
   /**
-  * 原有镜像id
-  */
-  public String origin_image_id = null;
-
-  /**
   * 实例规格
   */
   public String instance_type = null;

@@ -95,22 +95,6 @@ export class AppInstanceForm {
       },
     },
     {
-      key: 'origin_image_id',
-      type: 'input',
-      templateOptions: {
-        label: '原有镜像id',
-        type: 'text',
-        required: false,
-        minLength: 1,
-      },
-      validators: {
-        // pattern: {
-        //   expression: (c) => !c.value || /(\d{1,3}\.){3}\d{1,3}/.test(c.value),
-        //   message: (error, field: FormlyFieldConfig) => `"$\{field.formControl.value\}" is not a valid IP Address`,
-        // },
-      },
-    },
-    {
       key: 'instance_type',
       type: 'input',
       templateOptions: {

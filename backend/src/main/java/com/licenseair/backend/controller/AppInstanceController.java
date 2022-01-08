@@ -1,6 +1,7 @@
 package com.licenseair.backend.controller;
 
 import com.aliyuncs.exceptions.ClientException;
+import com.aliyuncs.exceptions.ServerException;
 import com.licenseair.backend.commons.model.*;
 import com.licenseair.backend.commons.util.HttpRequestException;
 import com.licenseair.backend.commons.util.HttpRequestFormException;
@@ -70,9 +71,21 @@ public class AppInstanceController extends BaseController {
       AppInstance instance = appInstanceService.update(appInstance);
       UpdateResponse res = new UpdateResponse(instance);
       AliyunInstances instances = new AliyunInstances();
-      instances.callToStopInstances(instance.instance_id);
+
+      try {
+        instances.callToStopInstances(instance.instance_id);
+      } catch (ServerException e) {
+        e.printStackTrace();
+      } catch (ClientException e) {
+        instances.callToStopInstances(instance.instance_id);
+        System.out.println("重试:" + e.getErrCode());
+        System.out.println("ErrCode:" + e.getErrCode());
+        System.out.println("ErrMsg:" + e.getErrMsg());
+        System.out.println("RequestId:" + e.getRequestId());
+      }
+
       return res;
-    } catch (HttpRequestException e) {
+    } catch (HttpRequestException | ClientException e) {
       throw new HttpRequestException(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
   }

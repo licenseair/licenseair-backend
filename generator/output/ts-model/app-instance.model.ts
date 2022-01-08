@@ -19,9 +19,6 @@ class AppInstanceModel {
   // public_address 公有地址
   public public_address: string;
 
-  // origin_image_id 原有镜像id
-  public origin_image_id: string;
-
   // instance_type 实例规格
   public instance_type: string;
 
@@ -53,7 +50,6 @@ const AppInstanceModelFields = {
   image_id: "image_id",
   application_id: "application_id",
   public_address: "public_address",
-  origin_image_id: "origin_image_id",
   instance_type: "instance_type",
   hours: "hours",
   password: "password",

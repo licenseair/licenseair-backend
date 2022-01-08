@@ -2,8 +2,11 @@ package com.licenseair.monitor;
 
 // import com.licenseair.backend.commons.model.ServerStatus;
 // import com.licenseair.backend.domain.AppInstance;
+import com.aliyuncs.exceptions.ClientException;
+import com.aliyuncs.exceptions.ServerException;
 import com.licenseair.backend.commons.model.ServerStatus;
 import com.licenseair.backend.domain.AppInstance;
+import com.licenseair.backend.library.AliyunInstances;
 import io.ebean.DatabaseFactory;
 import io.ebean.config.DatabaseConfig;
 import io.ebean.datasource.DataSourceConfig;
@@ -35,6 +38,7 @@ public class MonitorApplication {
       List<AppInstance> AppInstanceList = AppInstance.find.query().where()
         .order("id DESC")
         .eq("status", ServerStatus.Running)
+        .eq("deleted", false)
         .findList();
 
       System.out.println(AppInstanceList.size());
@@ -44,43 +48,91 @@ public class MonitorApplication {
         Timestamp fortyMinutesBefore = new Timestamp(cal.getTimeInMillis());
         System.out.printf("Check Time: %s%n", fortyMinutesBefore);
         // System.out.printf("Update Time: %s%n", ai.updated_at);
-        if(ai.updated_at.after(fortyMinutesBefore)) {
-          System.out.println(ai.instance_id);
-          System.out.println(ai.updated_at);
+        if(ai.updated_at.before(fortyMinutesBefore)) {
           if (ai.auto_save) {
             // 保存
-            // saveInstances(ai.instance_id,5);
+            new Thread(() -> {
+              System.out.println("stop instance");
+              System.out.println(ai.instance_id);
+              stopInstances(ai.instance_id,5);
+            }).start();
           } else {
             // 释放
-            // deleteInstances(ai.instance_id,5);
+            new Thread(() -> {
+              System.out.println("free instance");
+              System.out.println(ai.instance_id);
+              deleteInstances(ai.instance_id,5);
+            }).start();
           }
         }
       });
     }
   }
 
-  // /**
-  //  * 释放实例
-  //  * @param instance_id
-  //  * @param count
-  //  */
-  // private static void deleteInstances(String instance_id, int count) {
-  //   sleepSomeTime(1000 * 10); // 等待10秒钟
-  //   if (count < 10) {
-  //     AliyunInstances aliyunInstances = new AliyunInstances();
-  //     try {
-  //       aliyunInstances.callToDeleteInstances(instance_id);
-  //     } catch (ServerException e) {
-  //       e.printStackTrace();
-  //     } catch (ClientException e) {
-  //       deleteInstances(instance_id, count + 1);
-  //       System.out.println("重试:" + e.getErrCode());
-  //       System.out.println("ErrCode:" + e.getErrCode());
-  //       System.out.println("ErrMsg:" + e.getErrMsg());
-  //       System.out.println("RequestId:" + e.getRequestId());
-  //     }
-  //   }
-  // }
+  /**
+   * 释放实例
+   * @param instance_id 实例id
+   * @param count 重试次数
+   */
+  private static void deleteInstances(String instance_id, int count) {
+    sleepSomeTime(1000 * 10); // 等待10秒钟
+    if (count < 10) {
+      AliyunInstances aliyunInstances = new AliyunInstances();
+      try {
+        System.out.println("delete instance");
+        aliyunInstances.callToStopInstances(instance_id);
+        sleepSomeTime(1000 * 20); // 等待10秒钟
+        aliyunInstances.callToDeleteInstances(instance_id);
+        AppInstance app = AppInstance.find.query().where()
+          .eq("instance_id", instance_id)
+          .findOne();
+        if(app != null) {
+          app.setStatus("Stopping");
+          app.setDeleted(true);
+          app.save();
+        }
+      } catch (ServerException e) {
+        e.printStackTrace();
+      } catch (ClientException e) {
+        deleteInstances(instance_id, count + 1);
+        System.out.println("重试:" + e.getErrCode());
+        System.out.println("ErrCode:" + e.getErrCode());
+        System.out.println("ErrMsg:" + e.getErrMsg());
+        System.out.println("RequestId:" + e.getRequestId());
+      }
+    }
+  }
+
+  /**
+   * 释放实例
+   * @param instance_id 实例id
+   * @param count 重试次数
+   */
+  private static void stopInstances(String instance_id, int count) {
+    sleepSomeTime(1000 * 10); // 等待10秒钟
+    System.out.println(count);
+    if (count < 10) {
+      AliyunInstances aliyunInstances = new AliyunInstances();
+      try {
+        aliyunInstances.callToStopInstances(instance_id);
+        AppInstance app = AppInstance.find.query().where()
+          .eq("instance_id", instance_id)
+          .findOne();
+        if(app != null) {
+          app.setStatus("Stopping");
+          app.save();
+        }
+      } catch (ServerException e) {
+        e.printStackTrace();
+      } catch (ClientException e) {
+        stopInstances(instance_id, count + 1);
+        System.out.println("重试:" + e.getErrCode());
+        System.out.println("ErrCode:" + e.getErrCode());
+        System.out.println("ErrMsg:" + e.getErrMsg());
+        System.out.println("RequestId:" + e.getRequestId());
+      }
+    }
+  }
 
   private static void sleepSomeTime(int sleepTime) {
     try {
