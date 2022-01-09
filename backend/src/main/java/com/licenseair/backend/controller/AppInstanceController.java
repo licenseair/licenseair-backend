@@ -28,7 +28,7 @@ public class AppInstanceController extends BaseController {
     Transaction transaction = DB.beginTransaction();
     try {
       // 检查用户是否有正在运行的app
-      this.alreadyRunningApp();
+      this.alreadyRunningApp(appInstance.application_id);
       InstanceImage instanceImage = InstanceImage.find.query().where()
         .eq("application_id", appInstance.application_id)
         .eq("busy", false)
@@ -67,6 +67,7 @@ public class AppInstanceController extends BaseController {
   @PostMapping("/update")
   private UpdateResponse update(@RequestBody AppInstanceModel appInstance) throws HttpRequestException, HttpRequestFormException {
     AppInstanceService appInstanceService = new AppInstanceService(AuthUser);
+    Transaction transaction = DB.beginTransaction();
     try {
       AppInstance instance = appInstanceService.update(appInstance);
       UpdateResponse res = new UpdateResponse(instance);
@@ -74,9 +75,19 @@ public class AppInstanceController extends BaseController {
 
       try {
         instances.callToStopInstances(instance.instance_id);
+        InstanceImage image = InstanceImage.find.query().where()
+          .eq("image_id", instance.image_id.trim())
+          .findOne();
+        if(image != null) {
+          image.setBusy(false);
+          image.save();
+        }
+        transaction.commit();
       } catch (ServerException e) {
         e.printStackTrace();
+        transaction.rollback();
       } catch (ClientException e) {
+        transaction.rollback();
         instances.callToStopInstances(instance.instance_id);
         System.out.println("重试:" + e.getErrCode());
         System.out.println("ErrCode:" + e.getErrCode());
@@ -111,15 +122,23 @@ public class AppInstanceController extends BaseController {
    * 检查释放有正在运行的APP
    * @throws HttpRequestException
    */
-  private void alreadyRunningApp() throws HttpRequestException {
+  private void alreadyRunningApp(Long appID) throws HttpRequestException {
     int count = AppInstance.find.query().where()
       .eq("user_id", AuthUser.id)
       .ne("status", ServerStatus.Stopping)
       .setMaxRows(1)
       .findCount();
-
     if(count > 0) {
       throw new HttpRequestException(HttpStatus.BAD_REQUEST.value(), "请先在个人中心停止运行中的应用！");
+    }
+
+    int usableImage = InstanceImage.find.query().where()
+      .eq("application_id", appID)
+      .eq("busy", false)
+      .findCount();
+
+    if(usableImage == 0) {
+      throw new HttpRequestException(HttpStatus.BAD_REQUEST.value(), "应用资源暂时全部使用中，可用时将以短信通知您！");
     }
   }
 

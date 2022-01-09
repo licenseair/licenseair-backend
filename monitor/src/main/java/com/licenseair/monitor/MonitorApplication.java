@@ -6,6 +6,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
 import com.licenseair.backend.commons.model.ServerStatus;
 import com.licenseair.backend.domain.AppInstance;
+import com.licenseair.backend.domain.InstanceImage;
 import com.licenseair.backend.library.AliyunInstances;
 import io.ebean.DatabaseFactory;
 import io.ebean.config.DatabaseConfig;
@@ -90,6 +91,13 @@ public class MonitorApplication {
           app.setStatus("Stopping");
           app.setDeleted(true);
           app.save();
+          InstanceImage image = InstanceImage.find.query().where()
+            .eq("image_id", app.image_id.trim())
+            .findOne();
+          if(image != null) {
+            image.setBusy(false);
+            image.save();
+          }
         }
       } catch (ServerException e) {
         e.printStackTrace();
@@ -121,6 +129,13 @@ public class MonitorApplication {
         if(app != null) {
           app.setStatus("Stopping");
           app.save();
+          InstanceImage image = InstanceImage.find.query().where()
+            .eq("image_id", app.image_id.trim())
+            .findOne();
+          if(image != null) {
+            image.setBusy(false);
+            image.save();
+          }
         }
       } catch (ServerException e) {
         e.printStackTrace();
