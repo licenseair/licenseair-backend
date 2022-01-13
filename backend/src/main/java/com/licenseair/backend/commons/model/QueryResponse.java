@@ -6,9 +6,9 @@ import org.springframework.http.HttpStatus;
 import java.util.Map;
 
 public class QueryResponse {
-  private final int error = 0;
-  private final int code = HttpStatus.OK.value();
-  private final Object data;
+  public final int error = 0;
+  public final int code = HttpStatus.OK.value();
+  public final Object data;
 
   public QueryResponse(DataResource object) {
     this.data = object;
