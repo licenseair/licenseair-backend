@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Created by licenseair.com
  */
@@ -50,10 +52,26 @@ public class AppInstanceController extends BaseController {
         AliyunInstances instances = new AliyunInstances();
         instances.callToRunInstances(instanceImage, appInstance);
         transaction.commit();
+
+        if(createResponse.code == 200) {
+          List<AppInstance> list = AppInstance.find.query().where()
+            .eq("image_id", appInstance.image_id)
+            .eq("user_id", AuthUser.id)
+            .eq("status", ServerStatus.Stopping).findList();
+          list.forEach(ai -> {
+            ai.setAuto_save(false);
+            ai.save();
+            try {
+              instances.callToStopInstances(ai.instance_id);
+            } catch (ClientException e) {
+              e.printStackTrace();
+            }
+          });
+        }
         return createResponse;
       } else {
         transaction.rollback();
-        throw new HttpRequestException(HttpStatus.BAD_REQUEST.value(), "创建失败！");
+        throw new HttpRequestException(HttpStatus.BAD_REQUEST.value(), "暂时没有可用的资源，待资源空闲时将通过短信通知您！");
       }
     } catch (HttpRequestFormException e) {
       transaction.rollback();
@@ -73,32 +91,62 @@ public class AppInstanceController extends BaseController {
       UpdateResponse res = new UpdateResponse(instance);
       AliyunInstances instances = new AliyunInstances();
 
-      try {
-        instances.callToStopInstances(instance.instance_id);
-        InstanceImage image = InstanceImage.find.query().where()
-          .eq("image_id", instance.image_id.trim())
-          .findOne();
-        if(image != null) {
-          image.setBusy(false);
-          image.save();
+      if(appInstance.status.trim().equals(ServerStatus.Stopping)) {
+        try {
+          instances.callToStopInstances(instance.instance_id);
+          InstanceImage image = InstanceImage.find.query().where()
+            .eq("image_id", instance.image_id.trim())
+            .findOne();
+          if(image != null) {
+            image.setBusy(false);
+            image.save();
+          }
+          transaction.commit();
+        } catch (ServerException e) {
+          e.printStackTrace();
+          transaction.rollback();
+        } catch (ClientException e) {
+          transaction.rollback();
+          instances.callToStopInstances(instance.instance_id);
+          System.out.println("重试:" + e.getErrCode());
+          System.out.println("ErrCode:" + e.getErrCode());
+          System.out.println("ErrMsg:" + e.getErrMsg());
+          System.out.println("RequestId:" + e.getRequestId());
         }
-        transaction.commit();
-      } catch (ServerException e) {
-        e.printStackTrace();
-        transaction.rollback();
-      } catch (ClientException e) {
-        transaction.rollback();
-        instances.callToStopInstances(instance.instance_id);
-        System.out.println("重试:" + e.getErrCode());
-        System.out.println("ErrCode:" + e.getErrCode());
-        System.out.println("ErrMsg:" + e.getErrMsg());
-        System.out.println("RequestId:" + e.getRequestId());
-      }
+        return res;
+      } else if(appInstance.status.trim().equals(ServerStatus.Running)) {
+        // 检查用户是否有正在运行的app
+        this.alreadyRunningApp(appInstance.application_id);
+        InstanceImage instanceImage = InstanceImage.find.query().where()
+          .eq("application_id", appInstance.application_id)
+          .eq("busy", false)
+          .setMaxRows(1)
+          .order().desc("id")
+          .findOne();
 
-      return res;
+        if(instanceImage != null) {
+          AppInstance appIns = AppInstance.find.byId(appInstance.id);
+          if(appIns != null) {
+            appIns.setStatus(ServerStatus.Pending);
+            appIns.save();
+
+            // 设置镜像为忙碌
+            instanceImage.setBusy(true);
+            instanceImage.save();
+
+            instances.callToRunInstances(instanceImage, appIns);
+            transaction.commit();
+            return res;
+          }
+        } else {
+          transaction.rollback();
+          throw new HttpRequestException(HttpStatus.BAD_REQUEST.value(), "暂时没有可用的资源，待资源空闲时将通过短信通知您！");
+        }
+      }
     } catch (HttpRequestException | ClientException e) {
       throw new HttpRequestException(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
+    return null;
   }
 
   // @PostMapping("/delete")
