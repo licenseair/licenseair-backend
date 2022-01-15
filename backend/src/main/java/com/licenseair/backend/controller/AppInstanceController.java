@@ -87,11 +87,11 @@ public class AppInstanceController extends BaseController {
     AppInstanceService appInstanceService = new AppInstanceService(AuthUser);
     Transaction transaction = DB.beginTransaction();
     try {
-      AppInstance instance = appInstanceService.update(appInstance);
-      UpdateResponse res = new UpdateResponse(instance);
       AliyunInstances instances = new AliyunInstances();
 
       if(appInstance.status.trim().equals(ServerStatus.Stopping)) {
+        AppInstance instance = appInstanceService.update(appInstance);
+        UpdateResponse res = new UpdateResponse(instance);
         try {
           instances.callToStopInstances(instance.instance_id);
           InstanceImage image = InstanceImage.find.query().where()
@@ -100,6 +100,8 @@ public class AppInstanceController extends BaseController {
           if(image != null) {
             image.setBusy(false);
             image.save();
+          } else {
+            throw new HttpRequestException(HttpStatus.BAD_REQUEST.value(), "找不到指定的APP");
           }
           transaction.commit();
         } catch (ServerException e) {
@@ -117,6 +119,8 @@ public class AppInstanceController extends BaseController {
       } else if(appInstance.status.trim().equals(ServerStatus.Running)) {
         // 检查用户是否有正在运行的app
         this.alreadyRunningApp(appInstance.application_id);
+        AppInstance instance = appInstanceService.update(appInstance);
+        UpdateResponse res = new UpdateResponse(instance);
         InstanceImage instanceImage = InstanceImage.find.query().where()
           .eq("application_id", appInstance.application_id)
           .eq("busy", false)
@@ -127,16 +131,18 @@ public class AppInstanceController extends BaseController {
         if(instanceImage != null) {
           AppInstance appIns = AppInstance.find.byId(appInstance.id);
           if(appIns != null) {
-            appIns.setStatus(ServerStatus.Pending);
+            appIns.setStatus(ServerStatus.Running);
             appIns.save();
 
             // 设置镜像为忙碌
             instanceImage.setBusy(true);
             instanceImage.save();
 
-            instances.callToRunInstances(instanceImage, appIns);
+            instances.callToRestartInstances(appIns.instance_id);
             transaction.commit();
             return res;
+          } else {
+            throw new HttpRequestException(HttpStatus.BAD_REQUEST.value(), "找不到指定保存的APP");
           }
         } else {
           transaction.rollback();
