@@ -1,5 +1,5 @@
 server:
-  port: 1999
+  port: 8080
   ## log级别设置为debug, 通过log.debug打印异常信息
 logging:
   config: classpath:logback-spring.xml
@@ -39,27 +39,18 @@ datasource:
 
 ebean:
   search:
-    packages: com.programschool.backend.domain
+    packages: com.licenseair.backend.domain
 
 site:
-  rootPath: ""
-  url: https://next.programschool.com
-  payReturn: http://localhost:9090/buy/return-notify
-  payNotify: http://localhost:9090/buy/notify
-  payOk: http://localhost:4200/pay/ok
-  payError: http://localhost:4200/pay/error?message=
+  rootPath: "backend"
+  url: http://8.142.166.66
+  payReturn: http://8.142.166.66:9090/buy/return-notify
+  payNotify: http://8.142.166.66:9090/buy/notify
+  payOk: http://8.142.166.66/pay/ok
+  payError: http://8.142.166.66/pay/error?message=
 
-docker:
-  serviceApi: https://docker.boxlayer.com
-  imageRegistryHost: boxlayer.com
-  containerRegistryHost: container.boxlayer.com
-  domainSuffix: "programschool.cn"
 
 ali:
   OSS:
-    bookEndpoint: oss-cn-wulanchabu-internal.aliyuncs.com
-    imageEndpoint: oss-cn-wulanchabu-internal.aliyuncs.com
-
-#http:
-#  converters:
-#    preferred-json-mapper: gson
+    bookEndpoint: oss-cn-wulanchabu.aliyuncs.com
+    imageEndpoint: oss-cn-wulanchabu.aliyuncs.com

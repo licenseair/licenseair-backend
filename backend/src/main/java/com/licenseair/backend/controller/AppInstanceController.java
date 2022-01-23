@@ -17,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by licenseair.com
@@ -50,10 +51,10 @@ public class AppInstanceController extends BaseController {
         appInstance = appInstanceService.create(appInstance);
         CreateResponse createResponse = new CreateResponse(appInstance);
         AliyunInstances instances = new AliyunInstances();
-        instances.callToRunInstances(instanceImage, appInstance);
         transaction.commit();
+        Map<String, String> runRes = instances.callToRunInstances(instanceImage, appInstance);
 
-        if(createResponse.code == 200) {
+        if(createResponse.code == 200 && runRes.get("instanceId") != null) {
           List<AppInstance> list = AppInstance.find.query().where()
             .eq("image_id", appInstance.image_id)
             .eq("user_id", AuthUser.id)
@@ -61,14 +62,16 @@ public class AppInstanceController extends BaseController {
           list.forEach(ai -> {
             ai.setAuto_save(false);
             ai.save();
-            try {
-              instances.callToStopInstances(ai.instance_id);
-            } catch (ClientException e) {
-              e.printStackTrace();
-            }
           });
+          return createResponse;
+        } else {
+          // 余额不足100元，应通知管理员
+          instanceImage.setBusy(false);
+          instanceImage.save();
+          appInstance.delete();
+
+          throw new HttpRequestException(HttpStatus.BAD_REQUEST.value(), "资源暂时不可用，请稍后再试！");
         }
-        return createResponse;
       } else {
         transaction.rollback();
         throw new HttpRequestException(HttpStatus.BAD_REQUEST.value(), "暂时没有可用的资源，待资源空闲时将通过短信通知您！");

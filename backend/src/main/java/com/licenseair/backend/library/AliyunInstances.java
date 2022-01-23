@@ -191,7 +191,6 @@ public class AliyunInstances {
     // default username administrator
 
     String password = this.generatePassword();
-    System.out.println(password);
     this.instancePassword = password;
     runInstancesRequest.setPassword(password);
 
@@ -206,7 +205,6 @@ public class AliyunInstances {
     ArrayList<String> winPass = new ArrayList<>();
     for (int i = 0; i < 9; i++) {
       winPass.add(pass[i+2]);
-      System.out.println(pass[i+2]);
     }
     return String.join("", winPass);
   }
