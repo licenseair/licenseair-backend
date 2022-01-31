@@ -42,17 +42,12 @@ public class PayOrderModel {
   /**
   * subject id
   */
-  public Integer subject_id = null;
+  public Long subject_id = null;
 
   /**
   * 支付时间
   */
   public Timestamp pay_time = null;
-
-  /**
-  * 购买类型
-  */
-  public String type = null;
 
   /**
   * 是否已经支付

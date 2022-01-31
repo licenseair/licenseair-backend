@@ -65,21 +65,12 @@ public class PayOrder extends Model {
   * subject id
   */
   @NotNull(message = "subject id不能是空")
-  public Integer subject_id;
+  public Long subject_id;
 
   /**
   * 支付时间
   */
   public Timestamp pay_time;
-
-  /**
-  * 购买类型
-  */
-  @Size(min = 0, max = 32, message = "购买类型长度不正确")
-  @NotNull(message = "购买类型不能是空")
-  @NotBlank(message = "购买类型不能是空")
-  @NotEmpty(message = "购买类型不能是空")
-  public String type;
 
   /**
   * 是否已经支付
@@ -91,7 +82,7 @@ public class PayOrder extends Model {
   * 用户id
   */
   @NotNull(message = "用户id不能是空")
-  public Long user_id = 0L;
+  public Long user_id;
 
   @WhenCreated
   public Timestamp created_at = new Timestamp(System.currentTimeMillis());
