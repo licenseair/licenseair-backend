@@ -80,9 +80,8 @@ COMMENT ON COLUMN "public"."session_log"."updated_at" IS '更新时间';
 CREATE TABLE pay_order (
   id bigserial PRIMARY KEY,
   trade_no char(128) NOT NULL DEFAULT '',
-  user_id int8 NOT NULL DEFAULT 0,
-  subject_id int4 NOT NULL DEFAULT 0,
-  type char(32) NOT NULL,
+  user_id int8 NOT NULL DEFAULT,
+  subject_id int8 NOT NULL DEFAULT 0,
   snapshot text NULL,
   price decimal(10,2) NOT NULL DEFAULT 0.00,
   is_pay boolean NOT NULL DEFAULT false,
@@ -96,8 +95,7 @@ COMMENT ON TABLE "public"."pay_order" IS '支付订单';
 COMMENT ON COLUMN "public"."pay_order"."id"  IS '主键';
 COMMENT ON COLUMN "public"."pay_order"."trade_no"  IS '订单号';
 COMMENT ON COLUMN "public"."pay_order"."user_id"  IS '用户id';
-COMMENT ON COLUMN "public"."pay_order"."subject_id"  IS 'subject id';
-COMMENT ON COLUMN "public"."pay_order"."type"  IS '购买类型';
+COMMENT ON COLUMN "public"."pay_order"."subject_id"  IS '产品 id';
 COMMENT ON COLUMN "public"."pay_order"."snapshot"  IS '快照';
 COMMENT ON COLUMN "public"."pay_order"."price"  IS '价格（单位元）';
 COMMENT ON COLUMN "public"."pay_order"."is_pay"  IS '是否已经支付';
