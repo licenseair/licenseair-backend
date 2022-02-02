@@ -44,8 +44,8 @@ ebean:
 site:
   rootPath: "backend"
   url: http://localhost:4200
-  payReturn: http://localhost:9090/buy/return-notify
-  payNotify: http://localhost:9090/buy/notify
+  payReturn: http://localhost:8080/buy/return-notify
+  payNotify: http://localhost:8080/buy/notify
   payOk: http://localhost:4200/pay/ok
   payError: http://localhost:4200/pay/error?message=
 

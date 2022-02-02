@@ -205,7 +205,7 @@ public class AppInstanceController extends BaseController {
   }
 
   private String getForm(Application application, AppInstance appInstance) {
-    String subject = String.format("%s%s", appInstance.hours, application.name);
+    String subject = String.format("%s: 使用%s小时", application.name, appInstance.hours);
 
     // 支付表单
     String form = "";
@@ -225,8 +225,7 @@ public class AppInstanceController extends BaseController {
       logger.debug("调用遭遇异常，原因：" + e.getMessage());
       throw new RuntimeException(e.getMessage(), e);
     }
-    HashMap<String, String> res = new HashMap<>();
-    res.put("form", form);
+
     return form;
   }
 
@@ -244,7 +243,7 @@ public class AppInstanceController extends BaseController {
       .eq("user_id", AuthUser.id)
       .eq("is_pay", false)
       .eq("price", price)
-      .eq("subject_id", application.id)
+      .eq("subject_id", appInstance.id)
       // 超过5分钟作废
       .gt("created_at", fiveMinutes)
       .findOne();
@@ -271,7 +270,7 @@ public class AppInstanceController extends BaseController {
       PayOrder payOrder = new PayOrder();
       payOrder.setUser_id(AuthUser.id);
       payOrder.setTrade_no(tradeNo);
-      payOrder.setSubject_id(application.id);
+      payOrder.setSubject_id(appInstance.id);
       payOrder.setSnapshot(gson.toJson(appInstance));
       payOrder.setPrice(price);
       payOrder.setIs_pay(false);
