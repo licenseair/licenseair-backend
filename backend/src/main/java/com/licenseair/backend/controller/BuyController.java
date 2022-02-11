@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.licenseair.backend.commons.util.HttpRequestException;
 import com.licenseair.backend.domain.*;
 
+import com.licenseair.backend.library.AppManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -101,6 +102,14 @@ public class BuyController extends BaseController {
           payOrder.setPay_time(orderNotify.timestamp);
           payOrder.save();
           notify = true;
+
+          /**
+           * 支付完成，启动APP
+           * subject_id = AppInstance.id
+           */
+          // payOrder.subject_id
+          AppManager appManager = new AppManager();
+
         } else if(payOrder != null && payOrder.is_pay == true) {
           // 已经支付过
           notify = true;

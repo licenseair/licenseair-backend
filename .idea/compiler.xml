@@ -9,8 +9,15 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ebean/querybean-generator/12.14.0/7aca6a5ac5df3f053bb78fe1a1dde70ebe932182/querybean-generator-12.14.0.jar" />
         </processorPath>
         <module name="licenseair-backen.monitor.main" />
-        <module name="licenseair-backen.backend.main" />
         <module name="licenseair-backen.dashboard.main" />
+      </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.22/9c08ea24c6eb714e2d6170e8122c069a0ba9aacf/lombok-1.18.22.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ebean/querybean-generator/12.14.1/db9117beff66049355eac195f75af9dd0960231d/querybean-generator-12.14.1.jar" />
+        </processorPath>
+        <module name="licenseair-backen.backend.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11" />

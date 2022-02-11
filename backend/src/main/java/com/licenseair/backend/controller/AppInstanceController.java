@@ -34,12 +34,6 @@ public class AppInstanceController extends BaseController {
   @Value("${site.payReturn}")
   private String payReturn;
 
-  @Value("${site.payOk}")
-  private String payOk;
-
-  @Value("${site.payError}")
-  private String payError;
-
   @PostMapping("/create")
   private CreateResponse create(@RequestBody @Validated(AppInstance.Uni.class) AppInstance appInstance) throws HttpRequestException, HttpRequestFormException {
     AppInstanceService appInstanceService = new AppInstanceService(AuthUser);

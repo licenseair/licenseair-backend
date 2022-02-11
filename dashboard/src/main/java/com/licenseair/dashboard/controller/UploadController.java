@@ -29,8 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/upload")
 public class UploadController extends BaseController {
   private static String endpoint = OSSConfig.imageEndpoint;
-  private static String accessKeyId = "LTAI4G274FQ3bs8THAhy31gZ";
-  private static String accessKeySecret = "FbGXjGRQGFGsVF1apRlNTFDn0qeCpV";
+  private static String accessKeyId = OSSConfig.accessKeyId;
+  private static String accessKeySecret = OSSConfig.accessKeySecret;
 
   private static String bucketName = "programschool-assets";
   private static String newFilename;
